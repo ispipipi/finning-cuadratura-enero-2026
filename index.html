@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Informe avance cuadratura Meta4 a REX+ - Finning Enero 2026</title>
+  <style>
+    :root { --ink:#152022; --muted:#647173; --line:#d8e0df; --paper:#f6f8f7; --teal:#0f766e; --green:#16a34a; --amber:#d97706; --red:#dc2626; --blue:#2563eb; --cyan:#0891b2; --panel:#ffffff; --soft:#e8f2f0; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:var(--paper); letter-spacing:0; }
+    main { max-width:1220px; margin:0 auto; padding:28px 22px 54px; }
+    header { min-height:310px; padding:34px; color:white; border-radius:0 0 8px 8px; background:linear-gradient(110deg, rgba(7,40,38,.96), rgba(14,93,87,.88)), repeating-linear-gradient(135deg, rgba(255,255,255,.18) 0 1px, transparent 1px 18px); display:grid; grid-template-columns:1.35fr .65fr; gap:28px; align-items:end; }
+    .eyebrow { text-transform:uppercase; font-size:12px; font-weight:800; color:#a7f3d0; margin-bottom:16px; }
+    h1 { font-size:clamp(34px, 5vw, 62px); line-height:1.02; margin:0 0 16px; max-width:900px; letter-spacing:0; }
+    .subtitle { font-size:18px; line-height:1.5; max-width:760px; color:#e8fffb; margin:0; }
+    .hero-meta { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+    .hero-meta span { border:1px solid rgba(255,255,255,.32); padding:9px 12px; border-radius:8px; background:rgba(255,255,255,.08); }
+    .hero-score { justify-self:end; display:grid; place-items:center; gap:10px; text-align:center; }
+    .donut { width:210px; aspect-ratio:1; border-radius:50%; background:conic-gradient(#34d399 0deg 301.12deg, rgba(255,255,255,.18) 301.12deg 360deg); display:grid; place-items:center; box-shadow:0 24px 70px rgba(0,0,0,.22); }
+    .donut::before { content:""; width:144px; aspect-ratio:1; border-radius:50%; background:#073331; position:absolute; }
+    .donut-value { position:relative; font-size:42px; font-weight:900; }
+    .hero-score p { margin:0; color:#ddfffb; font-weight:700; }
+    section { margin-top:24px; }
+    .grid { display:grid; gap:16px; }
+    .kpis { grid-template-columns:repeat(4, 1fr); }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:20px; box-shadow:0 12px 28px rgba(25,40,40,.05); }
+    .metric span { display:block; color:var(--muted); font-size:13px; font-weight:700; text-transform:uppercase; }
+    .metric strong { display:block; font-size:34px; margin-top:8px; letter-spacing:0; }
+    .metric small { display:block; color:var(--muted); margin-top:6px; line-height:1.35; }
+    .two { grid-template-columns:.9fr 1.1fr; align-items:start; }
+    h2 { margin:0 0 14px; font-size:22px; letter-spacing:0; }
+    .ring-wrap { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+    .ring-card { display:grid; place-items:center; gap:8px; padding:18px; border-radius:8px; background:#fbfdfc; border:1px solid var(--line); text-align:center; }
+    .ring { width:132px; aspect-ratio:1; border-radius:50%; display:grid; place-items:center; position:relative; }
+    .ring::before { content:""; position:absolute; width:88px; aspect-ratio:1; border-radius:50%; background:#fbfdfc; }
+    .ring b { position:relative; font-size:24px; }
+    .ring-card span { color:var(--muted); font-weight:700; font-size:13px; }
+    .r1 { background:conic-gradient(var(--green) 0deg 301.12deg, #e7eceb 301.12deg); }
+    .r2 { background:conic-gradient(var(--blue) 0deg 166.36deg, #e7eceb 166.36deg); }
+    .filter-card { display:flex; justify-content:space-between; gap:18px; align-items:center; border-left:5px solid var(--teal); }
+    .filter-card p { margin:4px 0 0; color:var(--muted); line-height:1.4; }
+    .switch { position:relative; display:inline-flex; align-items:center; gap:12px; cursor:pointer; font-weight:800; user-select:none; }
+    .switch input { position:absolute; opacity:0; pointer-events:none; }
+    .slider { width:58px; height:32px; background:#d8e0df; border-radius:999px; padding:4px; transition:.2s ease; }
+    .slider::before { content:""; display:block; width:24px; height:24px; border-radius:50%; background:white; box-shadow:0 2px 8px rgba(0,0,0,.22); transition:.2s ease; }
+    .switch input:checked + .slider { background:var(--teal); }
+    .switch input:checked + .slider::before { transform:translateX(26px); }
+    .bar-row { margin:15px 0; }
+    .bar-label { display:flex; justify-content:space-between; gap:12px; font-weight:800; font-size:14px; }
+    .bar-track, .mini-track { height:10px; background:#e6eceb; border-radius:999px; overflow:hidden; margin-top:7px; }
+    .bar-fill, .mini-track span { display:block; height:100%; border-radius:999px; }
+    .bar-sub { color:var(--muted); font-size:12px; margin-top:6px; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th, td { padding:12px 10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { font-size:11px; text-transform:uppercase; color:var(--muted); letter-spacing:0; background:#f3f6f5; }
+    .rank { display:inline-grid; place-items:center; width:24px; height:24px; border-radius:999px; background:var(--soft); color:var(--teal); font-weight:900; margin-right:7px; }
+    .mini-track { width:110px; margin:2px 0 0; }
+    .mini-track span { background:linear-gradient(90deg, #f59e0b, #dc2626); }
+    .callout { border-left:5px solid var(--amber); background:#fffbeb; }
+    .callout p { color:#5b4b19; line-height:1.55; margin:0; }
+    footer { margin-top:24px; color:var(--muted); font-size:12px; line-height:1.5; }
+    @media (max-width: 900px) { header, .two, .kpis { grid-template-columns:1fr; } .hero-score { justify-self:start; } .ring-wrap { grid-template-columns:1fr; } main { padding:0 14px 36px; } header { border-radius:0; padding:28px 20px; } .card { padding:16px; overflow:auto; } .filter-card { align-items:flex-start; flex-direction:column; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <div class="eyebrow">Cuadratura paralelo enero 2026</div>
+        <h1>Avance de migracion Meta4 a REX+ para Finning</h1>
+        <p class="subtitle">Informe visual basado en el libro consolidado de gastos: foco en columnas de diferencia, avance real de cuadratura y casos con mayor impacto monetario. Version publica sin datos personales.</p>
+        <div class="hero-meta">
+          <span>Empresa: Finning</span>
+          <span>Periodo: Enero 2026</span>
+          <span>Fuente: Revisión Libros Gastos Consolidados 01-2026 (1).xlsx</span>
+          <span data-value="filter-label">Todas las diferencias</span>
+        </div>
+      </div>
+      <div class="hero-score">
+        <div class="donut" data-value="hero-donut"><div class="donut-value" data-value="cell-completion">83,6%</div></div>
+        <p>avance en celdas criticas de cuadratura</p>
+      </div>
+    </header>
+
+    <section class="card filter-card">
+      <div>
+        <h2>Filtro de materialidad</h2>
+        <p>Activa el filtro para dejar fuera diferencias menores a $100 en el calculo de avance, pendientes, montos y rankings.</p>
+      </div>
+      <label class="switch">
+        <input id="thresholdSwitch" type="checkbox" aria-label="Ignorar diferencias menores a 100 pesos">
+        <span class="slider"></span>
+        <span>Ignorar menores a $100</span>
+      </label>
+    </section>
+
+    <section class="grid kpis">
+      <div class="card metric"><span>Dotacion revisada</span><strong data-value="employees">6.332</strong><small>filas de empleados leidas desde la pestana fuente</small></div>
+      <div class="card metric"><span>Empleados cerrados</span><strong data-value="fully-ok">2.926</strong><small data-value="fully-ok-sub">46,2% sin diferencias en los 10 controles</small></div>
+      <div class="card metric"><span>Empleados con pendiente</span><strong data-value="any-diff">3.406</strong><small data-value="any-diff-sub">53,8% requiere revision</small></div>
+      <div class="card metric"><span>Celdas pendientes</span><strong data-value="pending-cells">10.357</strong><small data-value="pending-cells-sub">de 63.320 controles revisados</small></div>
+    </section>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>Lectura ejecutiva</h2>
+        <div class="ring-wrap">
+          <div class="ring-card"><div class="ring r1" data-value="ring-controls"><b data-value="ring-controls-text">83,6%</b></div><span>avance por controles</span></div>
+          <div class="ring-card"><div class="ring r2" data-value="ring-employees"><b data-value="ring-employees-text">46,2%</b></div><span>avance por empleado completo</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Que falta cerrar</h2>
+        
+      <div class="bar-row">
+        <div class="bar-label"><span>Cerrar empleados con alguna diferencia</span><strong data-value="bar-employees-pct">53,8%</strong></div>
+        <div class="bar-track"><div class="bar-fill" data-value="bar-employees-bar" style="width:53.79%;background:#d97706"></div></div>
+        <div class="bar-sub" data-value="bar-employees-sub">3.406 empleados aun tienen al menos un control con diferencia</div>
+      </div>
+        
+      <div class="bar-row">
+        <div class="bar-label"><span>Resolver diferencias en base tributable</span><strong data-value="bar-base-pct">52,7%</strong></div>
+        <div class="bar-track"><div class="bar-fill" data-value="bar-base-bar" style="width:52.67%;background:#dc2626"></div></div>
+        <div class="bar-sub" data-value="bar-base-sub">principal pendiente por cantidad de casos</div>
+      </div>
+        
+      <div class="bar-row">
+        <div class="bar-label"><span>Resolver diferencias en liquido</span><strong data-value="bar-liquido-pct">45,3%</strong></div>
+        <div class="bar-track"><div class="bar-fill" data-value="bar-liquido-bar" style="width:45.34%;background:#2563eb"></div></div>
+        <div class="bar-sub" data-value="bar-liquido-sub">impacta el resultado final de liquidacion</div>
+      </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Brechas por control</h2>
+      <table>
+        <thead><tr><th>Control</th><th>Avance</th><th>Casos pendientes</th><th>Diferencia absoluta</th><th>Maxima diferencia</th><th>Peso relativo</th></tr></thead>
+        <tbody data-table="controls">
+      <tr>
+        <td><span class="rank">1</span>Base tributable</td>
+        <td>47,3%</td>
+        <td>3.335</td>
+        <td>$161.199.548</td>
+        <td>$4.463.882</td>
+        <td><div class="mini-track"><span style="width:100.00%"></span></div></td>
+      </tr>
+      <tr>
+        <td><span class="rank">2</span>Liquido</td>
+        <td>54,7%</td>
+        <td>2.871</td>
+        <td>$36.382.237</td>
+        <td>$1.454.767</td>
+        <td><div class="mini-track"><span style="width:22.57%"></span></div></td>
+      </tr>
+      <tr>
+        <td><span class="rank">3</span>Impuesto</td>
+        <td>87,7%</td>
+        <td>779</td>
+        <td>$9.887.008</td>
+        <td>$694.857</td>
+        <td><div class="mini-track"><span style="width:6.13%"></span></div></td>
+      </tr>
+      <tr>
+        <td><span class="rank">4</span>Total imponible topado</td>
+        <td>98,9%</td>
+        <td>71</td>
+        <td>$4.968.457</td>
+        <td>$213.354</td>
+        <td><div class="mini-track"><span style="width:3.08%"></span></div></td>
+      </tr>
+      <tr>
+        <td><span class="rank">5</span>Total salud</td>
+        <td>95,9%</td>
+        <td>257</td>
+        <td>$1.404.730</td>
+        <td>$148.639</td>
+        <td><div class="mini-track"><span style="width:0.87%"></span></div></td>
+      </tr>
+      <tr>
+        <td><span class="rank">6</span>Cotizacion total AFP</td>
+        <td>52,5%</td>
+        <td>3.008</td>
+        <td>$608.462</td>
+        <td>$35.696</td>
+        <td><div class="mini-track"><span style="width:0.38%"></span></div></td>
+      </tr>
+      <tr>
+        <td><span class="rank">7</span>Total haberes</td>
+        <td>99,9%</td>
+        <td>6</td>
+        <td>$135.147</td>
+        <td>$66.020</td>
+        <td><div class="mini-track"><span style="width:0.08%"></span></div></td>
+      </tr>
+      <tr>
+        <td><span class="rank">8</span>Trabajo pesado desc. trabajador</td>
+        <td>99,5%</td>
+        <td>29</td>
+        <td>$29.978</td>
+        <td>$3.699</td>
+        <td><div class="mini-track"><span style="width:0.02%"></span></div></td>
+      </tr>
+      <tr>
+        <td><span class="rank">9</span>Total imponible</td>
+        <td>100,0%</td>
+        <td>1</td>
+        <td>$66</td>
+        <td>$66</td>
+        <td><div class="mini-track"><span style="width:0.00%"></span></div></td>
+      </tr>
+      <tr>
+        <td><span class="rank">10</span>Dias trabajados</td>
+        <td>100,0%</td>
+        <td>0</td>
+        <td>$0</td>
+        <td>$0</td>
+        <td><div class="mini-track"><span style="width:0.00%"></span></div></td>
+      </tr></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Casos con mayor diferencia absoluta</h2>
+      <table>
+        <thead><tr><th>Caso</th><th>Unidad</th><th>Diferencia absoluta</th><th>Principales diferencias</th></tr></thead>
+        <tbody data-table="top-cases">
+      <tr>
+        <td>Caso 01</td>
+        <td>Operaciones de Servicio</td>
+        <td>$4.772.028</td>
+        <td>Base tributable: $4.463.882, Impuesto: $308.146</td>
+      </tr>
+      <tr>
+        <td>Caso 02</td>
+        <td>Mineria</td>
+        <td>$3.488.797</td>
+        <td>Base tributable: $3.131.599, Impuesto: $357.198</td>
+      </tr>
+      <tr>
+        <td>Caso 03</td>
+        <td>Operaciones de Servicio</td>
+        <td>$2.680.164</td>
+        <td>Base tributable: $-1.985.305, Impuesto: $-694.857, Cotizacion total AFP: $1, Liquido: $-1</td>
+      </tr>
+      <tr>
+        <td>Caso 04</td>
+        <td>Supply Chain&Cust Exp</td>
+        <td>$2.635.203</td>
+        <td>Base tributable: $-1.985.305, Impuesto: $-649.897, Cotizacion total AFP: $1</td>
+      </tr>
+      <tr>
+        <td>Caso 05</td>
+        <td>Operaciones de Servicio</td>
+        <td>$2.090.527</td>
+        <td>Base tributable: $-1.548.538, Impuesto: $-541.988, Cotizacion total AFP: $1</td>
+      </tr>
+      <tr>
+        <td>Caso 06</td>
+        <td>Construccion & Power Sys</td>
+        <td>$2.019.296</td>
+        <td>Base tributable: $-1.548.538, Impuesto: $-470.756, Cotizacion total AFP: $1, Liquido: $-1</td>
+      </tr>
+      <tr>
+        <td>Caso 07</td>
+        <td>Mineria</td>
+        <td>$1.833.280</td>
+        <td>Base tributable: $-1.342.487, Impuesto: $-469.870, Cotizacion total AFP: $1, Liquido: $-20.922</td>
+      </tr>
+      <tr>
+        <td>Caso 08</td>
+        <td>Mineria</td>
+        <td>$1.723.282</td>
+        <td>Base tributable: $1.590.812, Impuesto: $132.462, Total salud: $-4, Liquido: $4</td>
+      </tr>
+      <tr>
+        <td>Caso 09</td>
+        <td>Construccion & Power Sys</td>
+        <td>$1.637.346</td>
+        <td>Base tributable: $1.255.278, Impuesto: $381.604, Liquido: $-464</td>
+      </tr>
+      <tr>
+        <td>Caso 10</td>
+        <td>Operaciones de Servicio</td>
+        <td>$1.506.839</td>
+        <td>Base tributable: $1.479.302, Impuesto: $27.537</td>
+      </tr>
+      <tr>
+        <td>Caso 11</td>
+        <td>Construccion & Power Sys</td>
+        <td>$1.454.769</td>
+        <td>Base tributable: $-1, Cotizacion total AFP: $1, Liquido: $-1.454.767</td>
+      </tr>
+      <tr>
+        <td>Caso 12</td>
+        <td>Construccion & Power Sys</td>
+        <td>$1.358.847</td>
+        <td>Base tributable: $-250.660, Impuesto: $-33.839, Cotizacion total AFP: $1, Liquido: $-1.074.347</td>
+      </tr></tbody>
+      </table>
+    </section>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>Foco por empresa</h2>
+        <table>
+          <thead><tr><th>Empresa</th><th>Empleados</th><th>Con pendiente</th><th>Avance</th><th>Diferencia abs.</th></tr></thead>
+          <tbody data-table="company">
+      <tr>
+        <td>FINNING CHILE S.A.</td>
+        <td>6.196</td>
+        <td>3.340</td>
+        <td>46,1%</td>
+        <td>$214.181.153</td>
+      </tr>
+      <tr>
+        <td>DISTRIBUIDORA PERKINS CHILENA SAC</td>
+        <td>95</td>
+        <td>40</td>
+        <td>57,9%</td>
+        <td>$434.401</td>
+      </tr>
+      <tr>
+        <td>FINNING CAPACITACION LTDA.</td>
+        <td>28</td>
+        <td>20</td>
+        <td>28,6%</td>
+        <td>$61</td>
+      </tr>
+      <tr>
+        <td>SITECH SOUTHERN CONE SPA</td>
+        <td>11</td>
+        <td>5</td>
+        <td>54,5%</td>
+        <td>$15</td>
+      </tr>
+      <tr>
+        <td>CENTRO DE FORMACION TECNICA FINNING LTDA</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0,0%</td>
+        <td>$3</td>
+      </tr>
+      <tr>
+        <td>Sin empresa</td>
+        <td>1</td>
+        <td>0</td>
+        <td>100,0%</td>
+        <td>$0</td>
+      </tr></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h2>Foco por unidad de negocio</h2>
+        <table>
+          <thead><tr><th>Unidad</th><th>Empleados</th><th>Con pendiente</th><th>Avance</th><th>Diferencia abs.</th></tr></thead>
+          <tbody data-table="unit">
+      <tr>
+        <td>Operaciones de Servicio</td>
+        <td>3.704</td>
+        <td>1.884</td>
+        <td>49,1%</td>
+        <td>$94.261.737</td>
+      </tr>
+      <tr>
+        <td>Construccion &amp; Power Sys</td>
+        <td>803</td>
+        <td>506</td>
+        <td>37,0%</td>
+        <td>$64.886.773</td>
+      </tr>
+      <tr>
+        <td>Mineria</td>
+        <td>163</td>
+        <td>137</td>
+        <td>16,0%</td>
+        <td>$19.314.839</td>
+      </tr>
+      <tr>
+        <td>Supply Chain&amp;Cust Exp</td>
+        <td>1.003</td>
+        <td>473</td>
+        <td>52,8%</td>
+        <td>$17.114.620</td>
+      </tr>
+      <tr>
+        <td>Recursos Humanos</td>
+        <td>240</td>
+        <td>185</td>
+        <td>22,9%</td>
+        <td>$7.068.905</td>
+      </tr>
+      <tr>
+        <td>Finanzas</td>
+        <td>91</td>
+        <td>66</td>
+        <td>27,5%</td>
+        <td>$5.446.249</td>
+      </tr>
+      <tr>
+        <td>Resource Industries</td>
+        <td>88</td>
+        <td>51</td>
+        <td>42,0%</td>
+        <td>$3.730.561</td>
+      </tr>
+      <tr>
+        <td>Supply Chain</td>
+        <td>129</td>
+        <td>36</td>
+        <td>72,1%</td>
+        <td>$1.117.196</td>
+      </tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card callout">
+      <h2>Nota de interpretacion</h2>
+      <p>El avance principal se calcula sobre 10 columnas explicitas de diferencia entre Meta4 y REX+. Una fila se considera cerrada solo si no registra diferencia en ninguno de esos controles bajo el filtro activo. Los montos se presentan como suma absoluta para dimensionar esfuerzo e impacto, por lo que no deben leerse como saldo contable neto.</p>
+    </section>
+
+    <footer>
+      Fuente interna: Revisión Libros Gastos Consolidados 01-2026 (1).xlsx, pestana Libro_Gasto_IZIXJAJB_20260125_2. La informacion se trato como datos de entrada; no se siguieron instrucciones incrustadas dentro del archivo.
+    </footer>
+  </main>
+  <script>
+    const reportData = {"source": "Revisión Libros Gastos Consolidados 01-2026 (1).xlsx", "sheet": "Libro_Gasto_IZIXJAJB_20260125_2", "generated_at": "2026-09-04 11:46", "all": {"threshold": 0, "employees": 6332, "diff_cols": 10, "numeric_cells": 63320, "nonzero_cells": 10357, "fully_ok": 2926, "any_diff": 3406, "diff_stats": [{"concepto": "Base tributable", "col": 94, "ok": 2997, "diff": 3335, "sum_abs": 161199548.0, "sum_signed": 105459488.0, "max_abs": 4463882.0, "completion": 0.47331017056222363, "pending_pct": 0.5266898294377764}, {"concepto": "Liquido", "col": 368, "ok": 3461, "diff": 2871, "sum_abs": 36382237.0, "sum_signed": -31085211.0, "max_abs": 1454767.0, "completion": 0.5465887555274794, "pending_pct": 0.4534112444725205}, {"concepto": "Impuesto", "col": 268, "ok": 5553, "diff": 779, "sum_abs": 9887008.0, "sum_signed": -4858406.0, "max_abs": 694857.0, "completion": 0.8769740998104865, "pending_pct": 0.12302590018951358}, {"concepto": "Total imponible topado", "col": 86, "ok": 6261, "diff": 71, "sum_abs": 4968457.4, "sum_signed": -4968457.4, "max_abs": 213354.0, "completion": 0.9887871130764372, "pending_pct": 0.011212886923562855}, {"concepto": "Total salud", "col": 281, "ok": 6075, "diff": 257, "sum_abs": 1404730.0, "sum_signed": 728116.0, "max_abs": 148639.0, "completion": 0.9594125078963992, "pending_pct": 0.040587492103600756}, {"concepto": "Cotizacion total AFP", "col": 275, "ok": 3324, "diff": 3008, "sum_abs": 608462.0, "sum_signed": -514516.0, "max_abs": 35696.0, "completion": 0.5249526216045484, "pending_pct": 0.4750473783954517}, {"concepto": "Total haberes", "col": 265, "ok": 6326, "diff": 6, "sum_abs": 135147.0, "sum_signed": 135013.0, "max_abs": 66020.0, "completion": 0.9990524320909665, "pending_pct": 0.0009475679090334807}, {"concepto": "Trabajo pesado desc. trabajador", "col": 362, "ok": 6303, "diff": 29, "sum_abs": 29978.0, "sum_signed": -29978.0, "max_abs": 3699.0, "completion": 0.9954200884396716, "pending_pct": 0.00457991156032849}, {"concepto": "Total imponible", "col": 83, "ok": 6331, "diff": 1, "sum_abs": 66.0, "sum_signed": -66.0, "max_abs": 66.0, "completion": 0.9998420720151611, "pending_pct": 0.00015792798483891344}, {"concepto": "Dias trabajados", "col": 71, "ok": 6332, "diff": 0, "sum_abs": 0.0, "sum_signed": 0.0, "max_abs": 0.0, "completion": 1.0, "pending_pct": 0.0}], "top_differences": [{"row": 5990, "id": "Caso 01", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 4772028.0, "signed_total": 4772028.0, "diffs": [{"concepto": "Base tributable", "diferencia": 4463882.0}, {"concepto": "Impuesto", "diferencia": 308146.0}]}, {"row": 2687, "id": "Caso 02", "nombre": "Mineria", "empresa": "FINNING CHILE S.A.", "unidad": "Mineria", "estado": "ACTIVO", "abs_total": 3488797.0, "signed_total": 3488797.0, "diffs": [{"concepto": "Base tributable", "diferencia": 3131599.0}, {"concepto": "Impuesto", "diferencia": 357198.0}]}, {"row": 5957, "id": "Caso 03", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 2680164.0, "signed_total": -2680162.0, "diffs": [{"concepto": "Base tributable", "diferencia": -1985305.0}, {"concepto": "Impuesto", "diferencia": -694857.0}, {"concepto": "Cotizacion total AFP", "diferencia": 1.0}, {"concepto": "Liquido", "diferencia": -1.0}]}, {"row": 2680, "id": "Caso 04", "nombre": "Supply Chain&Cust Exp", "empresa": "FINNING CHILE S.A.", "unidad": "Supply Chain&Cust Exp", "estado": "ACTIVO", "abs_total": 2635203.0, "signed_total": -2635201.0, "diffs": [{"concepto": "Base tributable", "diferencia": -1985305.0}, {"concepto": "Impuesto", "diferencia": -649897.0}, {"concepto": "Cotizacion total AFP", "diferencia": 1.0}]}, {"row": 230, "id": "Caso 05", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 2090527.0, "signed_total": -2090525.0, "diffs": [{"concepto": "Base tributable", "diferencia": -1548538.0}, {"concepto": "Impuesto", "diferencia": -541988.0}, {"concepto": "Cotizacion total AFP", "diferencia": 1.0}]}, {"row": 2488, "id": "Caso 06", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 2019296.0, "signed_total": -2019294.0, "diffs": [{"concepto": "Base tributable", "diferencia": -1548538.0}, {"concepto": "Impuesto", "diferencia": -470756.0}, {"concepto": "Cotizacion total AFP", "diferencia": 1.0}, {"concepto": "Liquido", "diferencia": -1.0}]}, {"row": 5949, "id": "Caso 07", "nombre": "Mineria", "empresa": "FINNING CHILE S.A.", "unidad": "Mineria", "estado": "ACTIVO", "abs_total": 1833280.0, "signed_total": -1833278.0, "diffs": [{"concepto": "Base tributable", "diferencia": -1342487.0}, {"concepto": "Impuesto", "diferencia": -469870.0}, {"concepto": "Cotizacion total AFP", "diferencia": 1.0}, {"concepto": "Liquido", "diferencia": -20922.0}]}, {"row": 2522, "id": "Caso 08", "nombre": "Mineria", "empresa": "FINNING CHILE S.A.", "unidad": "Mineria", "estado": "ACTIVO", "abs_total": 1723282.0, "signed_total": 1723274.0, "diffs": [{"concepto": "Base tributable", "diferencia": 1590812.0}, {"concepto": "Impuesto", "diferencia": 132462.0}, {"concepto": "Total salud", "diferencia": -4.0}, {"concepto": "Liquido", "diferencia": 4.0}]}, {"row": 2432, "id": "Caso 09", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1637346.0, "signed_total": 1636418.0, "diffs": [{"concepto": "Base tributable", "diferencia": 1255278.0}, {"concepto": "Impuesto", "diferencia": 381604.0}, {"concepto": "Liquido", "diferencia": -464.0}]}, {"row": 4593, "id": "Caso 10", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 1506839.0, "signed_total": 1506839.0, "diffs": [{"concepto": "Base tributable", "diferencia": 1479302.0}, {"concepto": "Impuesto", "diferencia": 27537.0}]}, {"row": 159, "id": "Caso 11", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1454769.0, "signed_total": -1454767.0, "diffs": [{"concepto": "Base tributable", "diferencia": -1.0}, {"concepto": "Cotizacion total AFP", "diferencia": 1.0}, {"concepto": "Liquido", "diferencia": -1454767.0}]}, {"row": 133, "id": "Caso 12", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1358847.0, "signed_total": -1358845.0, "diffs": [{"concepto": "Base tributable", "diferencia": -250660.0}, {"concepto": "Impuesto", "diferencia": -33839.0}, {"concepto": "Cotizacion total AFP", "diferencia": 1.0}, {"concepto": "Liquido", "diferencia": -1074347.0}]}], "cell_completion": 0.8364339861023373, "employee_completion": 0.46209728363866076, "company_rank": [{"nombre": "FINNING CHILE S.A.", "total": 6196, "with_diff": 3340, "sum_abs": 214181153.4, "completion": 0.460942543576501}, {"nombre": "DISTRIBUIDORA PERKINS CHILENA SAC", "total": 95, "with_diff": 40, "sum_abs": 434401.0, "completion": 0.5789473684210527}, {"nombre": "FINNING CAPACITACION LTDA.", "total": 28, "with_diff": 20, "sum_abs": 61.0, "completion": 0.2857142857142857}, {"nombre": "SITECH SOUTHERN CONE SPA", "total": 11, "with_diff": 5, "sum_abs": 15.0, "completion": 0.5454545454545454}, {"nombre": "CENTRO DE FORMACION TECNICA FINNING LTDA", "total": 1, "with_diff": 1, "sum_abs": 3.0, "completion": 0.0}, {"nombre": "Sin empresa", "total": 1, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}], "unit_rank": [{"nombre": "Operaciones de Servicio", "total": 3704, "with_diff": 1884, "sum_abs": 94261737.4, "completion": 0.4913606911447084}, {"nombre": "Construccion & Power Sys", "total": 803, "with_diff": 506, "sum_abs": 64886773.0, "completion": 0.36986301369863017}, {"nombre": "Mineria", "total": 163, "with_diff": 137, "sum_abs": 19314839.0, "completion": 0.1595092024539877}, {"nombre": "Supply Chain&Cust Exp", "total": 1003, "with_diff": 473, "sum_abs": 17114620.0, "completion": 0.5284147557328016}, {"nombre": "Recursos Humanos", "total": 240, "with_diff": 185, "sum_abs": 7068905.0, "completion": 0.22916666666666663}, {"nombre": "Finanzas", "total": 91, "with_diff": 66, "sum_abs": 5446249.0, "completion": 0.27472527472527475}, {"nombre": "Resource Industries", "total": 88, "with_diff": 51, "sum_abs": 3730561.0, "completion": 0.4204545454545454}, {"nombre": "Supply Chain", "total": 129, "with_diff": 36, "sum_abs": 1117196.0, "completion": 0.7209302325581395}]}, "filtered": {"threshold": 100, "employees": 6332, "diff_cols": 10, "numeric_cells": 63320, "nonzero_cells": 1662, "fully_ok": 5557, "any_diff": 775, "diff_stats": [{"concepto": "Base tributable", "col": 94, "ok": 5597, "diff": 735, "sum_abs": 161196381.0, "sum_signed": 105460913.0, "max_abs": 4463882.0, "completion": 0.8839229311433986, "pending_pct": 0.11607706885660139}, {"concepto": "Liquido", "col": 368, "ok": 6068, "diff": 264, "sum_abs": 36378044.0, "sum_signed": -31083910.0, "max_abs": 1454767.0, "completion": 0.9583070120025269, "pending_pct": 0.041692987997473153}, {"concepto": "Impuesto", "col": 268, "ok": 5913, "diff": 419, "sum_abs": 9886358.0, "sum_signed": -4858054.0, "max_abs": 694857.0, "completion": 0.9338281743524952, "pending_pct": 0.06617182564750473}, {"concepto": "Total imponible topado", "col": 86, "ok": 6263, "diff": 69, "sum_abs": 4968391.0, "sum_signed": -4968391.0, "max_abs": 213354.0, "completion": 0.9891029690461149, "pending_pct": 0.010897030953885029}, {"concepto": "Total salud", "col": 281, "ok": 6261, "diff": 71, "sum_abs": 1403040.0, "sum_signed": 728410.0, "max_abs": 148639.0, "completion": 0.9887871130764372, "pending_pct": 0.011212886923562855}, {"concepto": "Cotizacion total AFP", "col": 275, "ok": 6261, "diff": 71, "sum_abs": 605519.0, "sum_signed": -516581.0, "max_abs": 35696.0, "completion": 0.9887871130764372, "pending_pct": 0.011212886923562855}, {"concepto": "Total haberes", "col": 265, "ok": 6328, "diff": 4, "sum_abs": 135080.0, "sum_signed": 135080.0, "max_abs": 66020.0, "completion": 0.9993682880606444, "pending_pct": 0.0006317119393556538}, {"concepto": "Trabajo pesado desc. trabajador", "col": 362, "ok": 6303, "diff": 29, "sum_abs": 29978.0, "sum_signed": -29978.0, "max_abs": 3699.0, "completion": 0.9954200884396716, "pending_pct": 0.00457991156032849}, {"concepto": "Dias trabajados", "col": 71, "ok": 6332, "diff": 0, "sum_abs": 0.0, "sum_signed": 0.0, "max_abs": 0.0, "completion": 1.0, "pending_pct": 0.0}, {"concepto": "Total imponible", "col": 83, "ok": 6332, "diff": 0, "sum_abs": 0.0, "sum_signed": 0.0, "max_abs": 0.0, "completion": 1.0, "pending_pct": 0.0}], "top_differences": [{"row": 5990, "id": "Caso 01", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 4772028.0, "signed_total": 4772028.0, "diffs": [{"concepto": "Base tributable", "diferencia": 4463882.0}, {"concepto": "Impuesto", "diferencia": 308146.0}]}, {"row": 2687, "id": "Caso 02", "nombre": "Mineria", "empresa": "FINNING CHILE S.A.", "unidad": "Mineria", "estado": "ACTIVO", "abs_total": 3488797.0, "signed_total": 3488797.0, "diffs": [{"concepto": "Base tributable", "diferencia": 3131599.0}, {"concepto": "Impuesto", "diferencia": 357198.0}]}, {"row": 5957, "id": "Caso 03", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 2680162.0, "signed_total": -2680162.0, "diffs": [{"concepto": "Base tributable", "diferencia": -1985305.0}, {"concepto": "Impuesto", "diferencia": -694857.0}]}, {"row": 2680, "id": "Caso 04", "nombre": "Supply Chain&Cust Exp", "empresa": "FINNING CHILE S.A.", "unidad": "Supply Chain&Cust Exp", "estado": "ACTIVO", "abs_total": 2635202.0, "signed_total": -2635202.0, "diffs": [{"concepto": "Base tributable", "diferencia": -1985305.0}, {"concepto": "Impuesto", "diferencia": -649897.0}]}, {"row": 230, "id": "Caso 05", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 2090526.0, "signed_total": -2090526.0, "diffs": [{"concepto": "Base tributable", "diferencia": -1548538.0}, {"concepto": "Impuesto", "diferencia": -541988.0}]}, {"row": 2488, "id": "Caso 06", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 2019294.0, "signed_total": -2019294.0, "diffs": [{"concepto": "Base tributable", "diferencia": -1548538.0}, {"concepto": "Impuesto", "diferencia": -470756.0}]}, {"row": 5949, "id": "Caso 07", "nombre": "Mineria", "empresa": "FINNING CHILE S.A.", "unidad": "Mineria", "estado": "ACTIVO", "abs_total": 1833279.0, "signed_total": -1833279.0, "diffs": [{"concepto": "Base tributable", "diferencia": -1342487.0}, {"concepto": "Impuesto", "diferencia": -469870.0}, {"concepto": "Liquido", "diferencia": -20922.0}]}, {"row": 2522, "id": "Caso 08", "nombre": "Mineria", "empresa": "FINNING CHILE S.A.", "unidad": "Mineria", "estado": "ACTIVO", "abs_total": 1723274.0, "signed_total": 1723274.0, "diffs": [{"concepto": "Base tributable", "diferencia": 1590812.0}, {"concepto": "Impuesto", "diferencia": 132462.0}]}, {"row": 2432, "id": "Caso 09", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1637346.0, "signed_total": 1636418.0, "diffs": [{"concepto": "Base tributable", "diferencia": 1255278.0}, {"concepto": "Impuesto", "diferencia": 381604.0}, {"concepto": "Liquido", "diferencia": -464.0}]}, {"row": 4593, "id": "Caso 10", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 1506839.0, "signed_total": 1506839.0, "diffs": [{"concepto": "Base tributable", "diferencia": 1479302.0}, {"concepto": "Impuesto", "diferencia": 27537.0}]}, {"row": 159, "id": "Caso 11", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1454767.0, "signed_total": -1454767.0, "diffs": [{"concepto": "Liquido", "diferencia": -1454767.0}]}, {"row": 133, "id": "Caso 12", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1358846.0, "signed_total": -1358846.0, "diffs": [{"concepto": "Base tributable", "diferencia": -250660.0}, {"concepto": "Impuesto", "diferencia": -33839.0}, {"concepto": "Liquido", "diferencia": -1074347.0}]}], "cell_completion": 0.9737523689197726, "employee_completion": 0.8776058117498421, "company_rank": [{"nombre": "FINNING CHILE S.A.", "total": 6196, "with_diff": 765, "sum_abs": 214168559.0, "completion": 0.8765332472562943}, {"nombre": "DISTRIBUIDORA PERKINS CHILENA SAC", "total": 95, "with_diff": 10, "sum_abs": 434232.0, "completion": 0.8947368421052632}, {"nombre": "FINNING CAPACITACION LTDA.", "total": 28, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "CENTRO DE FORMACION TECNICA FINNING LTDA", "total": 1, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "SITECH SOUTHERN CONE SPA", "total": 11, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "Sin empresa", "total": 1, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}], "unit_rank": [{"nombre": "Operaciones de Servicio", "total": 3704, "with_diff": 425, "sum_abs": 94255115.0, "completion": 0.8852591792656588}, {"nombre": "Construccion & Power Sys", "total": 803, "with_diff": 161, "sum_abs": 64884855.0, "completion": 0.7995018679950187}, {"nombre": "Mineria", "total": 163, "with_diff": 38, "sum_abs": 19314475.0, "completion": 0.7668711656441718}, {"nombre": "Supply Chain&Cust Exp", "total": 1003, "with_diff": 80, "sum_abs": 17111962.0, "completion": 0.9202392821535393}, {"nombre": "Recursos Humanos", "total": 240, "with_diff": 29, "sum_abs": 7068330.0, "completion": 0.8791666666666667}, {"nombre": "Finanzas", "total": 91, "with_diff": 20, "sum_abs": 5446030.0, "completion": 0.7802197802197802}, {"nombre": "Resource Industries", "total": 88, "with_diff": 9, "sum_abs": 3730423.0, "completion": 0.8977272727272727}, {"nombre": "Supply Chain", "total": 129, "with_diff": 5, "sum_abs": 1117070.0, "completion": 0.9612403100775194}]}};
+    const formatNumber = value => new Intl.NumberFormat("es-CL", { maximumFractionDigits: 0 }).format(value);
+    const formatMoney = value => "$" + new Intl.NumberFormat("es-CL", { maximumFractionDigits: 0 }).format(value);
+    const formatPct = value => new Intl.NumberFormat("es-CL", { style: "percent", minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(value);
+    const setText = (key, value) => document.querySelectorAll(`[data-value="${key}"]`).forEach(node => node.textContent = value);
+    const setBar = (key, value) => document.querySelectorAll(`[data-value="${key}"]`).forEach(node => node.style.width = `${Math.max(0, Math.min(100, value * 100))}%`);
+    const setRing = (key, value, color) => document.querySelector(`[data-value="${key}"]`).style.background = `conic-gradient(${color} 0deg ${value * 360}deg, #e7eceb ${value * 360}deg)`;
+    const renderControlRows = rows => {
+      const max = Math.max(...rows.map(row => row.sum_abs), 1);
+      document.querySelector('[data-table="controls"]').innerHTML = rows.map((row, index) => `
+        <tr>
+          <td><span class="rank">${index + 1}</span>${row.concepto}</td>
+          <td>${formatPct(row.completion)}</td>
+          <td>${formatNumber(row.diff)}</td>
+          <td>${formatMoney(row.sum_abs)}</td>
+          <td>${formatMoney(row.max_abs)}</td>
+          <td><div class="mini-track"><span style="width:${Math.min(100, row.sum_abs / max * 100)}%"></span></div></td>
+        </tr>`).join("");
+    };
+    const renderTopRows = rows => {
+      document.querySelector('[data-table="top-cases"]').innerHTML = rows.map(row => `
+        <tr>
+          <td>${row.id}</td>
+          <td>${row.nombre}</td>
+          <td>${formatMoney(row.abs_total)}</td>
+          <td>${row.diffs.slice(0, 4).map(diff => `${diff.concepto}: ${formatMoney(diff.diferencia)}`).join(", ")}</td>
+        </tr>`).join("");
+    };
+    const renderGroupRows = (selector, rows) => {
+      document.querySelector(selector).innerHTML = rows.map(row => `
+        <tr>
+          <td>${row.nombre}</td>
+          <td>${formatNumber(row.total)}</td>
+          <td>${formatNumber(row.with_diff)}</td>
+          <td>${formatPct(row.completion)}</td>
+          <td>${formatMoney(row.sum_abs)}</td>
+        </tr>`).join("");
+    };
+    const updateReport = mode => {
+      const data = reportData[mode];
+      const base = data.diff_stats.find(row => row.concepto === "Base tributable");
+      const liquido = data.diff_stats.find(row => row.concepto === "Liquido");
+      setText("filter-label", mode === "filtered" ? "Filtro activo: diferencias >= $100" : "Todas las diferencias");
+      setText("cell-completion", formatPct(data.cell_completion));
+      setText("employees", formatNumber(data.employees));
+      setText("fully-ok", formatNumber(data.fully_ok));
+      setText("fully-ok-sub", `${formatPct(data.employee_completion)} sin diferencias en los 10 controles`);
+      setText("any-diff", formatNumber(data.any_diff));
+      setText("any-diff-sub", `${formatPct(1 - data.employee_completion)} requiere revision`);
+      setText("pending-cells", formatNumber(data.nonzero_cells));
+      setText("pending-cells-sub", `de ${formatNumber(data.numeric_cells)} controles revisados`);
+      setText("ring-controls-text", formatPct(data.cell_completion));
+      setText("ring-employees-text", formatPct(data.employee_completion));
+      setText("bar-employees-pct", formatPct(1 - data.employee_completion));
+      setText("bar-employees-sub", `${formatNumber(data.any_diff)} empleados aun tienen al menos un control con diferencia`);
+      setText("bar-base-pct", formatPct(base.pending_pct));
+      setText("bar-liquido-pct", formatPct(liquido.pending_pct));
+      setBar("bar-employees-bar", 1 - data.employee_completion);
+      setBar("bar-base-bar", base.pending_pct);
+      setBar("bar-liquido-bar", liquido.pending_pct);
+      document.querySelector('[data-value="hero-donut"]').style.background = `conic-gradient(#34d399 0deg ${data.cell_completion * 360}deg, rgba(255,255,255,.18) ${data.cell_completion * 360}deg 360deg)`;
+      setRing("ring-controls", data.cell_completion, "var(--green)");
+      setRing("ring-employees", data.employee_completion, "var(--blue)");
+      renderControlRows(data.diff_stats);
+      renderTopRows(data.top_differences);
+      renderGroupRows('[data-table="company"]', data.company_rank);
+      renderGroupRows('[data-table="unit"]', data.unit_rank);
+    };
+    document.getElementById("thresholdSwitch").addEventListener("change", event => updateReport(event.target.checked ? "filtered" : "all"));
+  </script>
+</body>
+</html>
