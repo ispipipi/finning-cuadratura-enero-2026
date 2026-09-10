@@ -5,364 +5,380 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Informe avance cuadratura Meta4 a REX+ - Finning Enero 2026</title>
   <style>
-    :root { --ink:#152022; --muted:#647173; --line:#d8e0df; --paper:#f6f8f7; --teal:#0f766e; --green:#16a34a; --amber:#d97706; --red:#dc2626; --blue:#2563eb; --cyan:#0891b2; --panel:#ffffff; --soft:#e8f2f0; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:var(--paper); letter-spacing:0; }
-    main { max-width:1220px; margin:0 auto; padding:28px 22px 54px; }
-    header { min-height:310px; padding:34px; color:white; border-radius:0 0 8px 8px; background:linear-gradient(110deg, rgba(7,40,38,.96), rgba(14,93,87,.88)), repeating-linear-gradient(135deg, rgba(255,255,255,.18) 0 1px, transparent 1px 18px); display:grid; grid-template-columns:1.35fr .65fr; gap:28px; align-items:end; }
-    .eyebrow { text-transform:uppercase; font-size:12px; font-weight:800; color:#a7f3d0; margin-bottom:16px; }
-    h1 { font-size:clamp(34px, 5vw, 62px); line-height:1.02; margin:0 0 16px; max-width:900px; letter-spacing:0; }
-    .subtitle { font-size:18px; line-height:1.5; max-width:760px; color:#e8fffb; margin:0; }
-    .hero-meta { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
-    .hero-meta span { border:1px solid rgba(255,255,255,.32); padding:9px 12px; border-radius:8px; background:rgba(255,255,255,.08); }
-    .hero-score { justify-self:end; display:grid; place-items:center; gap:10px; text-align:center; }
-    .donut { width:210px; aspect-ratio:1; border-radius:50%; background:conic-gradient(#34d399 0deg 282.82deg, rgba(255,255,255,.18) 282.82deg 360deg); display:grid; place-items:center; box-shadow:0 24px 70px rgba(0,0,0,.22); }
-    .donut::before { content:""; width:144px; aspect-ratio:1; border-radius:50%; background:#073331; position:absolute; }
-    .donut-value { position:relative; font-size:42px; font-weight:900; }
-    .hero-score p { margin:0; color:#ddfffb; font-weight:700; }
-    section { margin-top:24px; }
-    .grid { display:grid; gap:16px; }
-    .kpis { grid-template-columns:repeat(4, 1fr); }
-    .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:20px; box-shadow:0 12px 28px rgba(25,40,40,.05); }
-    .metric span { display:block; color:var(--muted); font-size:13px; font-weight:700; text-transform:uppercase; }
-    .metric strong { display:block; font-size:34px; margin-top:8px; letter-spacing:0; }
-    .metric small { display:block; color:var(--muted); margin-top:6px; line-height:1.35; }
-    .two { grid-template-columns:.9fr 1.1fr; align-items:start; }
-    h2 { margin:0 0 14px; font-size:22px; letter-spacing:0; }
-    .ring-wrap { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
-    .ring-card { display:grid; place-items:center; gap:8px; padding:18px; border-radius:8px; background:#fbfdfc; border:1px solid var(--line); text-align:center; }
-    .ring { width:132px; aspect-ratio:1; border-radius:50%; display:grid; place-items:center; position:relative; }
-    .ring::before { content:""; position:absolute; width:88px; aspect-ratio:1; border-radius:50%; background:#fbfdfc; }
-    .ring b { position:relative; font-size:24px; }
-    .ring-card span { color:var(--muted); font-weight:700; font-size:13px; }
-    .r1 { background:conic-gradient(var(--green) 0deg 282.82deg, #e7eceb 282.82deg); }
-    .r2 { background:conic-gradient(var(--blue) 0deg 205.64deg, #e7eceb 205.64deg); }
-    .filter-card { display:flex; justify-content:space-between; gap:18px; align-items:center; border-left:5px solid var(--teal); }
-    .filter-card p { margin:4px 0 0; color:var(--muted); line-height:1.4; }
-    .switch { position:relative; display:inline-flex; align-items:center; gap:12px; cursor:pointer; font-weight:800; user-select:none; }
-    .switch input { position:absolute; opacity:0; pointer-events:none; }
-    .slider { width:58px; height:32px; background:#d8e0df; border-radius:999px; padding:4px; transition:.2s ease; }
-    .slider::before { content:""; display:block; width:24px; height:24px; border-radius:50%; background:white; box-shadow:0 2px 8px rgba(0,0,0,.22); transition:.2s ease; }
-    .switch input:checked + .slider { background:var(--teal); }
-    .switch input:checked + .slider::before { transform:translateX(26px); }
-    .bar-row { margin:15px 0; }
-    .bar-label { display:flex; justify-content:space-between; gap:12px; font-weight:800; font-size:14px; }
-    .bar-track, .mini-track { height:10px; background:#e6eceb; border-radius:999px; overflow:hidden; margin-top:7px; }
-    .bar-fill, .mini-track span { display:block; height:100%; border-radius:999px; }
-    .bar-sub { color:var(--muted); font-size:12px; margin-top:6px; }
-    table { width:100%; border-collapse:collapse; font-size:13px; }
-    th, td { padding:12px 10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
-    th { font-size:11px; text-transform:uppercase; color:var(--muted); letter-spacing:0; background:#f3f6f5; }
-    .rank { display:inline-grid; place-items:center; width:24px; height:24px; border-radius:999px; background:var(--soft); color:var(--teal); font-weight:900; margin-right:7px; }
-    .mini-track { width:110px; margin:2px 0 0; }
-    .mini-track span { background:linear-gradient(90deg, #f59e0b, #dc2626); }
-    .callout { border-left:5px solid var(--amber); background:#fffbeb; }
-    .callout p { color:#5b4b19; line-height:1.55; margin:0; }
-    footer { margin-top:24px; color:var(--muted); font-size:12px; line-height:1.5; }
-    @media (max-width: 900px) { header, .two, .kpis { grid-template-columns:1fr; } .hero-score { justify-self:start; } .ring-wrap { grid-template-columns:1fr; } main { padding:0 14px 36px; } header { border-radius:0; padding:28px 20px; } .card { padding:16px; overflow:auto; } .filter-card { align-items:flex-start; flex-direction:column; } }
+    :root {
+      --bg: #f4f6f5;
+      --panel: #ffffff;
+      --ink: #172124;
+      --muted: #5f6c70;
+      --line: #dce3e2;
+      --line-strong: #c8d2d0;
+      --green: #18865f;
+      --green-soft: #e7f4ed;
+      --amber: #f2bd13;
+      --amber-soft: #fff5cc;
+      --red: #c9342d;
+      --blue: #1f5f99;
+      --blue-soft: #e8f1f8;
+      --charcoal: #1d2327;
+      --shadow: 0 18px 44px rgba(20, 31, 35, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      letter-spacing: 0;
+    }
+    main { max-width: 1240px; margin: 0 auto; padding: 18px 18px 48px; }
+    .shell { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); overflow: hidden; }
+    .brandbar {
+      min-height: 86px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--line);
+      background: #ffffff;
+    }
+    .logo-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .logo-tile {
+      height: 52px;
+      min-width: 86px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      padding: 8px 10px;
+    }
+    .logo-tile img { display: block; max-width: 176px; max-height: 38px; object-fit: contain; }
+    .logo-tile.finning { width: 196px; background: #ffcc00; padding: 0; overflow: hidden; }
+    .logo-tile.finning img { width: 100%; height: 100%; max-width: none; max-height: none; object-fit: cover; }
+    .logo-tile.tmf { width: 64px; min-width: 64px; background: #f03028; border-color: #f03028; }
+    .logo-tile.tmf img { max-width: 48px; max-height: 48px; }
+    .logo-tile.artbpo { width: 152px; }
+    .meta-status { text-align: right; color: var(--muted); font-size: 13px; line-height: 1.35; }
+    .meta-status strong { display: block; color: var(--ink); font-size: 14px; }
+    header {
+      padding: 34px 28px 30px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 28px;
+      align-items: center;
+      background:
+        linear-gradient(135deg, rgba(255, 204, 0, .20), transparent 28%),
+        linear-gradient(120deg, #fbfcfc 0%, #eef4f3 100%);
+    }
+    .eyebrow { color: var(--green); font-size: 12px; font-weight: 850; text-transform: uppercase; margin-bottom: 12px; }
+    h1 { margin: 0; font-size: clamp(30px, 4.4vw, 52px); line-height: 1.03; max-width: 780px; letter-spacing: 0; }
+    .subtitle { margin: 14px 0 0; max-width: 800px; color: var(--muted); font-size: 17px; line-height: 1.5; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .chip { border: 1px solid var(--line-strong); background: rgba(255,255,255,.72); border-radius: 999px; padding: 8px 11px; font-size: 13px; font-weight: 750; color: #314044; }
+    .score-card {
+      background: var(--charcoal);
+      color: #fff;
+      border-radius: 8px;
+      padding: 18px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      min-height: 240px;
+    }
+    .donut {
+      width: 170px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: conic-gradient(var(--amber) 0deg 282.82deg, rgba(255,255,255,.16) 282.82deg 360deg);
+      position: relative;
+    }
+    .donut::before { content: ""; position: absolute; width: 116px; aspect-ratio: 1; border-radius: 50%; background: var(--charcoal); }
+    .donut span { position: relative; font-size: 38px; font-weight: 900; }
+    .score-card p { margin: 12px 0 0; color: #dbe6e5; font-weight: 750; line-height: 1.35; }
+    section { padding: 0 28px; margin-top: 20px; }
+    .control-strip {
+      margin-top: 0;
+      padding-top: 22px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+    }
+    .filter-card {
+      border: 1px solid var(--line);
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+    }
+    h2 { margin: 0 0 12px; font-size: 21px; letter-spacing: 0; }
+    h3 { margin: 0; font-size: 15px; letter-spacing: 0; }
+    p { margin: 0; }
+    .muted { color: var(--muted); line-height: 1.45; }
+    .switch { position: relative; display: inline-flex; align-items: center; gap: 12px; cursor: pointer; font-weight: 850; user-select: none; }
+    .switch input { position: absolute; opacity: 0; pointer-events: none; }
+    .slider { width: 58px; height: 32px; background: #d5dddc; border-radius: 999px; padding: 4px; transition: .2s ease; }
+    .slider::before { content: ""; display: block; width: 24px; height: 24px; border-radius: 50%; background: white; box-shadow: 0 3px 8px rgba(0,0,0,.22); transition: .2s ease; }
+    .switch input:checked + .slider { background: var(--green); }
+    .switch input:checked + .slider::before { transform: translateX(26px); }
+    .grid { display: grid; gap: 14px; }
+    .kpis { grid-template-columns: repeat(4, 1fr); }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px; box-shadow: 0 10px 24px rgba(20,31,35,.04); }
+    .metric span { display: block; color: var(--muted); font-size: 12px; font-weight: 850; text-transform: uppercase; }
+    .metric strong { display: block; font-size: 31px; margin-top: 7px; letter-spacing: 0; }
+    .metric small { display: block; color: var(--muted); margin-top: 6px; line-height: 1.35; }
+    .metric.accent { border-top: 4px solid var(--amber); }
+    .metric.good { border-top: 4px solid var(--green); }
+    .metric.warn { border-top: 4px solid var(--red); }
+    .two { grid-template-columns: .92fr 1.08fr; align-items: start; }
+    .three { grid-template-columns: repeat(3, 1fr); }
+    .progress-pair { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .ring-card { background: #fbfcfc; border: 1px solid var(--line); border-radius: 8px; padding: 16px; }
+    .ring-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 12px; }
+    .ring-head strong { font-size: 24px; }
+    .track { height: 12px; border-radius: 999px; background: #e8eeee; overflow: hidden; }
+    .fill { height: 100%; border-radius: 999px; display: block; background: var(--green); width: 0; }
+    .bar-row { margin: 15px 0; }
+    .bar-label { display: flex; justify-content: space-between; gap: 12px; font-weight: 850; font-size: 14px; }
+    .bar-sub { color: var(--muted); font-size: 12px; margin-top: 6px; }
+    .minor-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 16px; align-items: stretch; }
+    .splitbar { display: flex; height: 18px; border-radius: 999px; overflow: hidden; background: #e8eeee; margin: 16px 0 10px; }
+    .splitbar span:first-child { background: var(--green); }
+    .splitbar span:last-child { background: var(--blue); }
+    .mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .mini-stat { border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: #fbfcfc; }
+    .mini-stat b { display: block; font-size: 20px; margin-bottom: 3px; }
+    .select-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0 14px; }
+    select { appearance: none; border: 1px solid var(--line-strong); border-radius: 8px; padding: 10px 38px 10px 12px; background: white; color: var(--ink); font: inherit; font-weight: 750; min-width: 250px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 11px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { font-size: 11px; text-transform: uppercase; color: var(--muted); background: #f5f7f7; letter-spacing: 0; }
+    td.num, th.num { text-align: right; }
+    .rank { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 999px; background: var(--blue-soft); color: var(--blue); font-weight: 900; margin-right: 7px; }
+    .mini-track { width: 116px; height: 10px; background: #e8eeee; border-radius: 999px; overflow: hidden; }
+    .mini-track span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--amber), var(--red)); }
+    .group-card { background: #fbfcfc; border: 1px solid var(--line); border-radius: 8px; padding: 14px; }
+    .group-card strong { display: block; font-size: 26px; margin-top: 8px; }
+    .unit-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+    .unit-tags span { background: white; border: 1px solid var(--line); border-radius: 999px; padding: 6px 9px; color: var(--muted); font-size: 12px; }
+    .note { background: var(--amber-soft); border-left: 5px solid var(--amber); }
+    footer { padding: 22px 28px 28px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    @media (max-width: 980px) {
+      main { padding: 0 0 36px; }
+      .shell { border-radius: 0; border-left: 0; border-right: 0; }
+      .brandbar, header, .control-strip, .two, .minor-layout, .kpis, .three { grid-template-columns: 1fr; }
+      .brandbar { align-items: flex-start; }
+      .meta-status { text-align: left; }
+      header { padding: 26px 18px; }
+      section { padding: 0 18px; }
+      .score-card { min-height: 210px; }
+      .filter-card { flex-direction: column; align-items: flex-start; }
+      .progress-pair, .mini-stats { grid-template-columns: 1fr; }
+      .card { overflow-x: auto; }
+      .logo-tile.finning { width: 174px; }
+      .logo-tile.artbpo { width: 132px; }
+    }
   </style>
 </head>
 <body>
   <main>
-    <header>
-      <div>
-        <div class="eyebrow">Cuadratura paralelo enero 2026</div>
-        <h1>Avance de migracion Meta4 a REX+ para Finning</h1>
-        <p class="subtitle">Informe visual basado en el libro consolidado de gastos: foco en columnas de diferencia disponibles, avance real de cuadratura y casos con mayor impacto monetario. Version publica sin datos personales.</p>
-        <div class="hero-meta">
-          <span>Empresa: Finning</span>
-          <span>Periodo: Enero 2026</span>
-          <span>Fuente: Revisión Libros Gastos Consolidados 01-2026 V2.xlsx</span>
-          <span data-value="filter-label">Todas las diferencias</span>
+    <div class="shell">
+      <div class="brandbar">
+        <div class="logo-row" aria-label="Marcas del informe">
+          <div class="logo-tile finning"><img src="assets/logo-finning-cat.png" alt="Finning CAT"></div>
+          <div class="logo-tile tmf"><img src="assets/logo-tmf.png" alt="TMF Group"></div>
+          <div class="logo-tile artbpo"><img src="assets/logo-artbpo.png" alt="artBPO"></div>
+        </div>
+        <div class="meta-status">
+          <strong>Versión pública anonimizada</strong>
+          Enero 2026 · Meta4 a REX+ · Actualizado 2026-09-10 09:18
         </div>
       </div>
-      <div class="hero-score">
-        <div class="donut" data-value="hero-donut"><div class="donut-value" data-value="cell-completion">78,6%</div></div>
-        <p>avance en celdas criticas de cuadratura</p>
-      </div>
-    </header>
-    <section class="card filter-card">
-      <div>
-        <h2>Filtro de materialidad</h2>
-        <p>Activa el filtro para dejar fuera diferencias menores a $100 en el calculo de avance, pendientes, montos y rankings.</p>
-      </div>
-      <label class="switch">
-        <input id="thresholdSwitch" type="checkbox" aria-label="Ignorar diferencias menores a 100 pesos">
-        <span class="slider"></span>
-        <span>Ignorar menores a $100</span>
-      </label>
-    </section>
-    <section class="grid kpis">
-      <div class="card metric"><span>Dotacion revisada</span><strong data-value="employees">6.332</strong><small>filas de empleados leidas desde la pestana fuente</small></div>
-      <div class="card metric"><span>Empleados cerrados</span><strong data-value="fully-ok">3.617</strong><small data-value="fully-ok-sub">57,1% sin diferencias en 2 controles disponibles</small></div>
-      <div class="card metric"><span>Empleados con pendiente</span><strong data-value="any-diff">2.715</strong><small data-value="any-diff-sub">42,9% requiere revision</small></div>
-      <div class="card metric"><span>Celdas pendientes</span><strong data-value="pending-cells">2.715</strong><small data-value="pending-cells-sub">de 12.664 controles revisados</small></div>
-    </section>
-    <section class="grid two">
-      <div class="card">
-        <h2>Lectura ejecutiva</h2>
-        <div class="ring-wrap">
-          <div class="ring-card"><div class="ring r1" data-value="ring-controls"><b data-value="ring-controls-text">78,6%</b></div><span>avance por controles</span></div>
-          <div class="ring-card"><div class="ring r2" data-value="ring-employees"><b data-value="ring-employees-text">57,1%</b></div><span>avance por empleado completo</span></div>
+
+      <header>
+        <div>
+          <div class="eyebrow">Cuadratura paralelo enero 2026</div>
+          <h1>Avance de migración Meta4 a REX+ para Finning</h1>
+          <p class="subtitle">Vista ejecutiva del avance, materialidad y pendientes detectados a partir del libro consolidado V2. El reporte público muestra agregados y casos anonimizados.</p>
+          <div class="chips">
+            <span class="chip">Empresa: Finning</span>
+            <span class="chip">Fuente: Revisión Libros Gastos Consolidados 01-2026 V2.xlsx</span>
+            <span class="chip">2 controles disponibles</span>
+            <span class="chip" data-value="filter-label">Todas las diferencias</span>
+          </div>
         </div>
-      </div>
-      <div class="card">
-        <h2>Que falta cerrar</h2>
-        
-      <div class="bar-row">
-        <div class="bar-label"><span>Cerrar empleados con alguna diferencia</span><strong data-value="bar-employees-pct">42,9%</strong></div>
-        <div class="bar-track"><div class="bar-fill" data-value="bar-employees-bar" style="width:42.88%;background:#d97706"></div></div>
-        <div class="bar-sub" data-value="bar-employees-sub">2.715 empleados aun tienen al menos un control con diferencia</div>
-      </div>
-        
-      <div class="bar-row">
-        <div class="bar-label"><span>Resolver diferencias en liquido</span><strong data-value="bar-liquido-pct">42,9%</strong></div>
-        <div class="bar-track"><div class="bar-fill" data-value="bar-liquido-bar" style="width:42.88%;background:#2563eb"></div></div>
-        <div class="bar-sub" data-value="bar-liquido-sub">impacta el resultado final de liquidacion</div>
-      </div>
-      </div>
-    </section>
-    <section class="card">
-      <h2>Brechas por control</h2>
-      <table>
-        <thead><tr><th>Control</th><th>Avance</th><th>Casos pendientes</th><th>Diferencia absoluta</th><th>Maxima diferencia</th><th>Peso relativo</th></tr></thead>
-        <tbody data-table="controls">
-      <tr>
-        <td><span class="rank">1</span>Liquido</td>
-        <td>57,1%</td>
-        <td>2.715</td>
-        <td>$32.987.726</td>
-        <td>$1.454.767</td>
-        <td><div class="mini-track"><span style="width:100.00%"></span></div></td>
-      </tr>
-      <tr>
-        <td><span class="rank">2</span>Dias trabajados</td>
-        <td>100,0%</td>
-        <td>0</td>
-        <td>$0</td>
-        <td>$0</td>
-        <td><div class="mini-track"><span style="width:0.00%"></span></div></td>
-      </tr></tbody>
-      </table>
-    </section>
-    <section class="card">
-      <h2>Casos con mayor diferencia absoluta</h2>
-      <table>
-        <thead><tr><th>Caso</th><th>Unidad</th><th>Diferencia absoluta</th><th>Principales diferencias</th></tr></thead>
-        <tbody data-table="top-cases">
-      <tr>
-        <td>Caso 01</td>
-        <td>Construccion &amp; Power Sys</td>
-        <td>$1.454.767</td>
-        <td>Liquido: $-1.454.767</td>
-      </tr>
-      <tr>
-        <td>Caso 02</td>
-        <td>Construccion &amp; Power Sys</td>
-        <td>$1.135.217</td>
-        <td>Liquido: $-1.135.217</td>
-      </tr>
-      <tr>
-        <td>Caso 03</td>
-        <td>Construccion &amp; Power Sys</td>
-        <td>$1.074.347</td>
-        <td>Liquido: $-1.074.347</td>
-      </tr>
-      <tr>
-        <td>Caso 04</td>
-        <td>Construccion &amp; Power Sys</td>
-        <td>$964.663</td>
-        <td>Liquido: $-964.663</td>
-      </tr>
-      <tr>
-        <td>Caso 05</td>
-        <td>Operaciones de Servicio</td>
-        <td>$961.886</td>
-        <td>Liquido: $-961.886</td>
-      </tr>
-      <tr>
-        <td>Caso 06</td>
-        <td>Construccion &amp; Power Sys</td>
-        <td>$960.828</td>
-        <td>Liquido: $-960.828</td>
-      </tr>
-      <tr>
-        <td>Caso 07</td>
-        <td>Construccion &amp; Power Sys</td>
-        <td>$923.088</td>
-        <td>Liquido: $-923.088</td>
-      </tr>
-      <tr>
-        <td>Caso 08</td>
-        <td>Mineria</td>
-        <td>$919.854</td>
-        <td>Liquido: $-919.854</td>
-      </tr>
-      <tr>
-        <td>Caso 09</td>
-        <td>Construccion &amp; Power Sys</td>
-        <td>$914.952</td>
-        <td>Liquido: $-914.952</td>
-      </tr>
-      <tr>
-        <td>Caso 10</td>
-        <td>Construccion &amp; Power Sys</td>
-        <td>$913.482</td>
-        <td>Liquido: $-913.482</td>
-      </tr>
-      <tr>
-        <td>Caso 11</td>
-        <td>Construccion &amp; Power Sys</td>
-        <td>$902.955</td>
-        <td>Liquido: $-902.955</td>
-      </tr>
-      <tr>
-        <td>Caso 12</td>
-        <td>Operaciones de Servicio</td>
-        <td>$867.303</td>
-        <td>Liquido: $-867.303</td>
-      </tr></tbody>
-      </table>
-    </section>
-    <section class="grid two">
-      <div class="card">
-        <h2>Foco por empresa</h2>
+        <div class="score-card">
+          <div class="donut" data-value="hero-donut"><span data-value="cell-completion">78,6%</span></div>
+          <p>avance en celdas críticas de cuadratura</p>
+        </div>
+      </header>
+
+      <section class="control-strip">
+        <div class="filter-card">
+          <div>
+            <h2>Materialidad</h2>
+            <p class="muted">El filtro deja fuera diferencias menores a $100 en avance, pendientes, montos y rankings.</p>
+          </div>
+          <label class="switch">
+            <input id="thresholdSwitch" type="checkbox" aria-label="Ignorar diferencias menores a 100 pesos">
+            <span class="slider"></span>
+            <span>Ignorar menores a $100</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="grid kpis">
+        <div class="card metric accent"><span>Dotación revisada</span><strong data-value="employees">6.332</strong><small>filas de empleados leídas desde la pestaña fuente</small></div>
+        <div class="card metric good"><span>Empleados cerrados</span><strong data-value="fully-ok">3.617</strong><small data-value="fully-ok-sub">57,1% sin diferencias en 2 controles disponibles</small></div>
+        <div class="card metric warn"><span>Empleados con pendiente</span><strong data-value="any-diff">2.715</strong><small data-value="any-diff-sub">42,9% requiere revisión</small></div>
+        <div class="card metric"><span>Celdas pendientes</span><strong data-value="pending-cells">2.715</strong><small data-value="pending-cells-sub">de 12.664 controles revisados</small></div>
+      </section>
+
+      <section class="grid two">
+        <div class="card">
+          <h2>Lectura ejecutiva</h2>
+          <div class="progress-pair">
+            <div class="ring-card">
+              <div class="ring-head"><h3>Avance por controles</h3><strong data-value="ring-controls-text">78,6%</strong></div>
+              <div class="track"><span class="fill" data-value="ring-controls-bar" style="width:78.56%"></span></div>
+            </div>
+            <div class="ring-card">
+              <div class="ring-head"><h3>Avance por empleado</h3><strong data-value="ring-employees-text">57,1%</strong></div>
+              <div class="track"><span class="fill" data-value="ring-employees-bar" style="width:57.12%;background:var(--blue)"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Qué falta cerrar</h2>
+          <div class="bar-row">
+            <div class="bar-label"><span>Empleados con alguna diferencia</span><strong data-value="bar-employees-pct">42,9%</strong></div>
+            <div class="track"><span class="fill" data-value="bar-employees-bar" style="width:42.88%;background:var(--red)"></span></div>
+            <div class="bar-sub" data-value="bar-employees-sub">2.715 empleados aún tienen al menos un control con diferencia</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>Diferencias en líquido</span><strong data-value="bar-liquido-pct">42,9%</strong></div>
+            <div class="track"><span class="fill" data-value="bar-liquido-bar" style="width:42.88%;background:var(--blue)"></span></div>
+            <div class="bar-sub">Impacta el resultado final de liquidación</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="card minor-layout">
+          <div>
+            <h2>Diferencias menores a $100</h2>
+            <p class="muted">Desglose de diferencias de baja materialidad detectadas en las columnas disponibles.</p>
+            <div class="splitbar" aria-label="Distribución diferencias menores a 100 pesos">
+              <span style="width:96.57%"></span>
+              <span style="width:3.43%"></span>
+            </div>
+            <p class="muted">96,6% está entre -1 y 1; el resto queda entre $2 y $99 en valor absoluto.</p>
+          </div>
+          <div class="mini-stats">
+            <div class="mini-stat"><b>2.652</b><span>Diferencias menores a $100</span></div>
+            <div class="mini-stat"><b>2.561</b><span>En rango -1 a 1</span></div>
+            <div class="mini-stat"><b>$54</b><span>Mayor diferencia menor a $100</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid two">
+        <div class="card">
+          <h2>Pendientes por justificación</h2>
+          <p class="muted">Agrupa los empleados pendientes según la última columna del archivo.</p>
+          <div class="select-row">
+            <label for="justificationSelect" class="muted">Justificación</label>
+            <select id="justificationSelect"></select>
+          </div>
+          <div class="grid three" data-value="selected-justification-cards"></div>
+        </div>
+        <div class="card">
+          <h2>Grupos disponibles</h2>
+          <table>
+            <thead><tr><th>Justificación</th><th class="num">Empleados</th><th class="num">% pendientes</th><th class="num">Mayor dif.</th></tr></thead>
+            <tbody data-table="justifications"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Brechas por control</h2>
         <table>
-          <thead><tr><th>Empresa</th><th>Empleados</th><th>Con pendiente</th><th>Avance</th><th>Diferencia abs.</th></tr></thead>
-          <tbody data-table="company">
-      <tr>
-        <td>FINNING CHILE S.A.</td>
-        <td>6.196</td>
-        <td>2.656</td>
-        <td>57,1%</td>
-        <td>$32.983.620</td>
-      </tr>
-      <tr>
-        <td>DISTRIBUIDORA PERKINS CHILENA SAC</td>
-        <td>95</td>
-        <td>35</td>
-        <td>63,2%</td>
-        <td>$4.081</td>
-      </tr>
-      <tr>
-        <td>FINNING CAPACITACION LTDA.</td>
-        <td>28</td>
-        <td>18</td>
-        <td>35,7%</td>
-        <td>$19</td>
-      </tr>
-      <tr>
-        <td>SITECH SOUTHERN CONE SPA</td>
-        <td>11</td>
-        <td>5</td>
-        <td>54,5%</td>
-        <td>$5</td>
-      </tr>
-      <tr>
-        <td>CENTRO DE FORMACION TECNICA FINNING LTDA</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0,0%</td>
-        <td>$1</td>
-      </tr>
-      <tr>
-        <td>Sin empresa</td>
-        <td>1</td>
-        <td>0</td>
-        <td>100,0%</td>
-        <td>$0</td>
-      </tr></tbody>
+          <thead><tr><th>Control</th><th class="num">Avance</th><th class="num">Casos pendientes</th><th class="num">Diferencia absoluta</th><th class="num">Máxima diferencia</th><th>Peso relativo</th></tr></thead>
+          <tbody data-table="controls"></tbody>
         </table>
-      </div>
-      <div class="card">
-        <h2>Foco por unidad de negocio</h2>
+      </section>
+
+      <section class="card">
+        <h2>Casos con mayor diferencia absoluta</h2>
         <table>
-          <thead><tr><th>Unidad</th><th>Empleados</th><th>Con pendiente</th><th>Avance</th><th>Diferencia abs.</th></tr></thead>
-          <tbody data-table="unit">
-      <tr>
-        <td>Construccion &amp; Power Sys</td>
-        <td>803</td>
-        <td>379</td>
-        <td>52,8%</td>
-        <td>$22.650.294</td>
-      </tr>
-      <tr>
-        <td>Operaciones de Servicio</td>
-        <td>3.704</td>
-        <td>1.516</td>
-        <td>59,1%</td>
-        <td>$4.430.170</td>
-      </tr>
-      <tr>
-        <td>Mineria</td>
-        <td>163</td>
-        <td>109</td>
-        <td>33,1%</td>
-        <td>$3.080.462</td>
-      </tr>
-      <tr>
-        <td>Finanzas</td>
-        <td>91</td>
-        <td>48</td>
-        <td>47,3%</td>
-        <td>$2.194.317</td>
-      </tr>
-      <tr>
-        <td>Supply Chain&amp;Cust Exp</td>
-        <td>1.003</td>
-        <td>382</td>
-        <td>61,9%</td>
-        <td>$632.184</td>
-      </tr>
-      <tr>
-        <td>Recursos Humanos</td>
-        <td>240</td>
-        <td>148</td>
-        <td>38,3%</td>
-        <td>$154</td>
-      </tr>
-      <tr>
-        <td>Resource Industries</td>
-        <td>88</td>
-        <td>42</td>
-        <td>52,3%</td>
-        <td>$42</td>
-      </tr>
-      <tr>
-        <td>Information Technology</td>
-        <td>55</td>
-        <td>41</td>
-        <td>25,5%</td>
-        <td>$41</td>
-      </tr></tbody>
+          <thead><tr><th>Caso</th><th>Unidad</th><th class="num">Diferencia absoluta</th><th>Principales diferencias</th></tr></thead>
+          <tbody data-table="top-cases"></tbody>
         </table>
-      </div>
-    </section>
-    <section class="card callout">
-      <h2>Nota de interpretacion</h2>
-      <p>El avance principal se calcula sobre las columnas explicitas de diferencia disponibles en el archivo V2. Una fila se considera cerrada solo si no registra diferencia en ninguno de esos controles bajo el filtro activo. Los montos se presentan como suma absoluta para dimensionar esfuerzo e impacto, por lo que no deben leerse como saldo contable neto.</p>
-    </section>
-    <footer>
-      Fuente interna: Revisión Libros Gastos Consolidados 01-2026 V2.xlsx, pestana Libro_Gasto_IZIXJAJB_20260125_2. La informacion se trato como datos de entrada; no se siguieron instrucciones incrustadas dentro del archivo.
-    </footer>
+      </section>
+
+      <section class="grid two">
+        <div class="card">
+          <h2>Foco por empresa</h2>
+          <table>
+            <thead><tr><th>Empresa</th><th class="num">Empleados</th><th class="num">Con pendiente</th><th class="num">Avance</th><th class="num">Diferencia abs.</th></tr></thead>
+            <tbody data-table="company"></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h2>Foco por unidad de negocio</h2>
+          <table>
+            <thead><tr><th>Unidad</th><th class="num">Empleados</th><th class="num">Con pendiente</th><th class="num">Avance</th><th class="num">Diferencia abs.</th></tr></thead>
+            <tbody data-table="unit"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card note">
+        <h2>Nota de interpretación</h2>
+        <p class="muted">El avance principal se calcula sobre las columnas explícitas de diferencia disponibles en el archivo V2. Una fila se considera cerrada solo si no registra diferencia en ninguno de esos controles bajo el filtro activo. Los montos se presentan como suma absoluta para dimensionar esfuerzo e impacto.</p>
+      </section>
+      <footer>
+        Fuente interna: Revisión Libros Gastos Consolidados 01-2026 V2.xlsx, pestaña Libro_Gasto_IZIXJAJB_20260125_2. La información se trató como datos de entrada; no se siguieron instrucciones incrustadas dentro del archivo.
+      </footer>
+    </div>
   </main>
   <script>
-    const reportData = {"source": "Revisión Libros Gastos Consolidados 01-2026 V2.xlsx", "sheet": "Libro_Gasto_IZIXJAJB_20260125_2", "generated_at": "2026-09-10 08:08", "all": {"threshold": 0, "employees": 6332, "diff_cols": 2, "numeric_cells": 12664, "nonzero_cells": 2715, "fully_ok": 3617, "any_diff": 2715, "diff_stats": [{"concepto": "Liquido", "col": 352, "ok": 3617, "diff": 2715, "sum_abs": 32987726.0, "sum_signed": -32876370.0, "max_abs": 1454767.0, "completion": 0.5712255211623499, "pending_pct": 0.42877447883765}, {"concepto": "Dias trabajados", "col": 71, "ok": 6332, "diff": 0, "sum_abs": 0.0, "sum_signed": 0.0, "max_abs": 0.0, "completion": 1.0, "pending_pct": 0.0}], "top_differences": [{"row": null, "id": "Caso 01", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1454767.0, "signed_total": -1454767.0, "diffs": [{"concepto": "Liquido", "diferencia": -1454767.0}]}, {"row": null, "id": "Caso 02", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1135217.0, "signed_total": -1135217.0, "diffs": [{"concepto": "Liquido", "diferencia": -1135217.0}]}, {"row": null, "id": "Caso 03", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1074347.0, "signed_total": -1074347.0, "diffs": [{"concepto": "Liquido", "diferencia": -1074347.0}]}, {"row": null, "id": "Caso 04", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 964663.0, "signed_total": -964663.0, "diffs": [{"concepto": "Liquido", "diferencia": -964663.0}]}, {"row": null, "id": "Caso 05", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 961886.0, "signed_total": -961886.0, "diffs": [{"concepto": "Liquido", "diferencia": -961886.0}]}, {"row": null, "id": "Caso 06", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 960828.0, "signed_total": -960828.0, "diffs": [{"concepto": "Liquido", "diferencia": -960828.0}]}, {"row": null, "id": "Caso 07", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 923088.0, "signed_total": -923088.0, "diffs": [{"concepto": "Liquido", "diferencia": -923088.0}]}, {"row": null, "id": "Caso 08", "nombre": "Mineria", "empresa": "FINNING CHILE S.A.", "unidad": "Mineria", "estado": "ACTIVO", "abs_total": 919854.0, "signed_total": -919854.0, "diffs": [{"concepto": "Liquido", "diferencia": -919854.0}]}, {"row": null, "id": "Caso 09", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 914952.0, "signed_total": -914952.0, "diffs": [{"concepto": "Liquido", "diferencia": -914952.0}]}, {"row": null, "id": "Caso 10", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 913482.0, "signed_total": -913482.0, "diffs": [{"concepto": "Liquido", "diferencia": -913482.0}]}, {"row": null, "id": "Caso 11", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 902955.0, "signed_total": -902955.0, "diffs": [{"concepto": "Liquido", "diferencia": -902955.0}]}, {"row": null, "id": "Caso 12", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 867303.0, "signed_total": -867303.0, "diffs": [{"concepto": "Liquido", "diferencia": -867303.0}]}], "cell_completion": 0.785612760581175, "employee_completion": 0.5712255211623499, "company_rank": [{"nombre": "FINNING CHILE S.A.", "total": 6196, "with_diff": 2656, "sum_abs": 32983620.0, "completion": 0.5713363460296965}, {"nombre": "DISTRIBUIDORA PERKINS CHILENA SAC", "total": 95, "with_diff": 35, "sum_abs": 4081.0, "completion": 0.631578947368421}, {"nombre": "FINNING CAPACITACION LTDA.", "total": 28, "with_diff": 18, "sum_abs": 19.0, "completion": 0.3571428571428571}, {"nombre": "SITECH SOUTHERN CONE SPA", "total": 11, "with_diff": 5, "sum_abs": 5.0, "completion": 0.5454545454545454}, {"nombre": "CENTRO DE FORMACION TECNICA FINNING LTDA", "total": 1, "with_diff": 1, "sum_abs": 1.0, "completion": 0.0}, {"nombre": "Sin empresa", "total": 1, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}], "unit_rank": [{"nombre": "Construccion & Power Sys", "total": 803, "with_diff": 379, "sum_abs": 22650294.0, "completion": 0.5280199252801993}, {"nombre": "Operaciones de Servicio", "total": 3704, "with_diff": 1516, "sum_abs": 4430170.0, "completion": 0.5907127429805615}, {"nombre": "Mineria", "total": 163, "with_diff": 109, "sum_abs": 3080462.0, "completion": 0.3312883435582822}, {"nombre": "Finanzas", "total": 91, "with_diff": 48, "sum_abs": 2194317.0, "completion": 0.4725274725274725}, {"nombre": "Supply Chain&Cust Exp", "total": 1003, "with_diff": 382, "sum_abs": 632184.0, "completion": 0.6191425722831505}, {"nombre": "Recursos Humanos", "total": 240, "with_diff": 148, "sum_abs": 154.0, "completion": 0.3833333333333333}, {"nombre": "Resource Industries", "total": 88, "with_diff": 42, "sum_abs": 42.0, "completion": 0.5227272727272727}, {"nombre": "Information Technology", "total": 55, "with_diff": 41, "sum_abs": 41.0, "completion": 0.2545454545454545}]}, "filtered": {"threshold": 100, "employees": 6332, "diff_cols": 2, "numeric_cells": 12664, "nonzero_cells": 63, "fully_ok": 6269, "any_diff": 63, "diff_stats": [{"concepto": "Liquido", "col": 352, "ok": 6269, "diff": 63, "sum_abs": 32984640.0, "sum_signed": -32874748.0, "max_abs": 1454767.0, "completion": 0.9900505369551484, "pending_pct": 0.009949463044851548}, {"concepto": "Dias trabajados", "col": 71, "ok": 6332, "diff": 0, "sum_abs": 0.0, "sum_signed": 0.0, "max_abs": 0.0, "completion": 1.0, "pending_pct": 0.0}], "top_differences": [{"row": null, "id": "Caso 01", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1454767.0, "signed_total": -1454767.0, "diffs": [{"concepto": "Liquido", "diferencia": -1454767.0}]}, {"row": null, "id": "Caso 02", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1135217.0, "signed_total": -1135217.0, "diffs": [{"concepto": "Liquido", "diferencia": -1135217.0}]}, {"row": null, "id": "Caso 03", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1074347.0, "signed_total": -1074347.0, "diffs": [{"concepto": "Liquido", "diferencia": -1074347.0}]}, {"row": null, "id": "Caso 04", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 964663.0, "signed_total": -964663.0, "diffs": [{"concepto": "Liquido", "diferencia": -964663.0}]}, {"row": null, "id": "Caso 05", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 961886.0, "signed_total": -961886.0, "diffs": [{"concepto": "Liquido", "diferencia": -961886.0}]}, {"row": null, "id": "Caso 06", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 960828.0, "signed_total": -960828.0, "diffs": [{"concepto": "Liquido", "diferencia": -960828.0}]}, {"row": null, "id": "Caso 07", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 923088.0, "signed_total": -923088.0, "diffs": [{"concepto": "Liquido", "diferencia": -923088.0}]}, {"row": null, "id": "Caso 08", "nombre": "Mineria", "empresa": "FINNING CHILE S.A.", "unidad": "Mineria", "estado": "ACTIVO", "abs_total": 919854.0, "signed_total": -919854.0, "diffs": [{"concepto": "Liquido", "diferencia": -919854.0}]}, {"row": null, "id": "Caso 09", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 914952.0, "signed_total": -914952.0, "diffs": [{"concepto": "Liquido", "diferencia": -914952.0}]}, {"row": null, "id": "Caso 10", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 913482.0, "signed_total": -913482.0, "diffs": [{"concepto": "Liquido", "diferencia": -913482.0}]}, {"row": null, "id": "Caso 11", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 902955.0, "signed_total": -902955.0, "diffs": [{"concepto": "Liquido", "diferencia": -902955.0}]}, {"row": null, "id": "Caso 12", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 867303.0, "signed_total": -867303.0, "diffs": [{"concepto": "Liquido", "diferencia": -867303.0}]}], "cell_completion": 0.9950252684775742, "employee_completion": 0.9900505369551484, "company_rank": [{"nombre": "FINNING CHILE S.A.", "total": 6196, "with_diff": 62, "sum_abs": 32980609.0, "completion": 0.9899935442220787}, {"nombre": "DISTRIBUIDORA PERKINS CHILENA SAC", "total": 95, "with_diff": 1, "sum_abs": 4031.0, "completion": 0.9894736842105263}, {"nombre": "FINNING CAPACITACION LTDA.", "total": 28, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "CENTRO DE FORMACION TECNICA FINNING LTDA", "total": 1, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "SITECH SOUTHERN CONE SPA", "total": 11, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "Sin empresa", "total": 1, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}], "unit_rank": [{"nombre": "Construccion & Power Sys", "total": 803, "with_diff": 36, "sum_abs": 22649855.0, "completion": 0.9551681195516812}, {"nombre": "Operaciones de Servicio", "total": 3704, "with_diff": 15, "sum_abs": 4428443.0, "completion": 0.9959503239740821}, {"nombre": "Mineria", "total": 163, "with_diff": 6, "sum_abs": 3080356.0, "completion": 0.9631901840490797}, {"nombre": "Finanzas", "total": 91, "with_diff": 3, "sum_abs": 2194271.0, "completion": 0.967032967032967}, {"nombre": "Supply Chain&Cust Exp", "total": 1003, "with_diff": 3, "sum_abs": 631715.0, "completion": 0.9970089730807578}, {"nombre": "Recursos Humanos", "total": 240, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "Operaciones Argentina", "total": 32, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "Information Technology", "total": 55, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}]}};
+    const reportData = {"source": "Revisión Libros Gastos Consolidados 01-2026 V2.xlsx", "sheet": "Libro_Gasto_IZIXJAJB_20260125_2", "generated_at": "2026-09-10 09:18", "all": {"threshold": 0, "employees": 6332, "diff_cols": 2, "numeric_cells": 12664, "nonzero_cells": 2715, "fully_ok": 3617, "any_diff": 2715, "diff_stats": [{"concepto": "Liquido", "col": 352, "ok": 3617, "diff": 2715, "sum_abs": 32987726.0, "sum_signed": -32876370.0, "max_abs": 1454767.0, "completion": 0.5712255211623499, "pending_pct": 0.42877447883765}, {"concepto": "Dias trabajados", "col": 71, "ok": 6332, "diff": 0, "sum_abs": 0.0, "sum_signed": 0.0, "max_abs": 0.0, "completion": 1.0, "pending_pct": 0.0}], "top_differences": [{"row": null, "id": "Caso 01", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1454767.0, "signed_total": -1454767.0, "diffs": [{"concepto": "Liquido", "diferencia": -1454767.0}]}, {"row": null, "id": "Caso 02", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1135217.0, "signed_total": -1135217.0, "diffs": [{"concepto": "Liquido", "diferencia": -1135217.0}]}, {"row": null, "id": "Caso 03", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1074347.0, "signed_total": -1074347.0, "diffs": [{"concepto": "Liquido", "diferencia": -1074347.0}]}, {"row": null, "id": "Caso 04", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 964663.0, "signed_total": -964663.0, "diffs": [{"concepto": "Liquido", "diferencia": -964663.0}]}, {"row": null, "id": "Caso 05", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 961886.0, "signed_total": -961886.0, "diffs": [{"concepto": "Liquido", "diferencia": -961886.0}]}, {"row": null, "id": "Caso 06", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 960828.0, "signed_total": -960828.0, "diffs": [{"concepto": "Liquido", "diferencia": -960828.0}]}, {"row": null, "id": "Caso 07", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 923088.0, "signed_total": -923088.0, "diffs": [{"concepto": "Liquido", "diferencia": -923088.0}]}, {"row": null, "id": "Caso 08", "nombre": "Mineria", "empresa": "FINNING CHILE S.A.", "unidad": "Mineria", "estado": "ACTIVO", "abs_total": 919854.0, "signed_total": -919854.0, "diffs": [{"concepto": "Liquido", "diferencia": -919854.0}]}, {"row": null, "id": "Caso 09", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 914952.0, "signed_total": -914952.0, "diffs": [{"concepto": "Liquido", "diferencia": -914952.0}]}, {"row": null, "id": "Caso 10", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 913482.0, "signed_total": -913482.0, "diffs": [{"concepto": "Liquido", "diferencia": -913482.0}]}, {"row": null, "id": "Caso 11", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 902955.0, "signed_total": -902955.0, "diffs": [{"concepto": "Liquido", "diferencia": -902955.0}]}, {"row": null, "id": "Caso 12", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 867303.0, "signed_total": -867303.0, "diffs": [{"concepto": "Liquido", "diferencia": -867303.0}]}], "cell_completion": 0.785612760581175, "employee_completion": 0.5712255211623499, "company_rank": [{"nombre": "FINNING CHILE S.A.", "total": 6196, "with_diff": 2656, "sum_abs": 32983620.0, "completion": 0.5713363460296965}, {"nombre": "DISTRIBUIDORA PERKINS CHILENA SAC", "total": 95, "with_diff": 35, "sum_abs": 4081.0, "completion": 0.631578947368421}, {"nombre": "FINNING CAPACITACION LTDA.", "total": 28, "with_diff": 18, "sum_abs": 19.0, "completion": 0.3571428571428571}, {"nombre": "SITECH SOUTHERN CONE SPA", "total": 11, "with_diff": 5, "sum_abs": 5.0, "completion": 0.5454545454545454}, {"nombre": "CENTRO DE FORMACION TECNICA FINNING LTDA", "total": 1, "with_diff": 1, "sum_abs": 1.0, "completion": 0.0}, {"nombre": "Sin empresa", "total": 1, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}], "unit_rank": [{"nombre": "Construccion & Power Sys", "total": 803, "with_diff": 379, "sum_abs": 22650294.0, "completion": 0.5280199252801993}, {"nombre": "Operaciones de Servicio", "total": 3704, "with_diff": 1516, "sum_abs": 4430170.0, "completion": 0.5907127429805615}, {"nombre": "Mineria", "total": 163, "with_diff": 109, "sum_abs": 3080462.0, "completion": 0.3312883435582822}, {"nombre": "Finanzas", "total": 91, "with_diff": 48, "sum_abs": 2194317.0, "completion": 0.4725274725274725}, {"nombre": "Supply Chain&Cust Exp", "total": 1003, "with_diff": 382, "sum_abs": 632184.0, "completion": 0.6191425722831505}, {"nombre": "Recursos Humanos", "total": 240, "with_diff": 148, "sum_abs": 154.0, "completion": 0.3833333333333333}, {"nombre": "Resource Industries", "total": 88, "with_diff": 42, "sum_abs": 42.0, "completion": 0.5227272727272727}, {"nombre": "Information Technology", "total": 55, "with_diff": 41, "sum_abs": 41.0, "completion": 0.2545454545454545}]}, "filtered": {"threshold": 100, "employees": 6332, "diff_cols": 2, "numeric_cells": 12664, "nonzero_cells": 63, "fully_ok": 6269, "any_diff": 63, "diff_stats": [{"concepto": "Liquido", "col": 352, "ok": 6269, "diff": 63, "sum_abs": 32984640.0, "sum_signed": -32874748.0, "max_abs": 1454767.0, "completion": 0.9900505369551484, "pending_pct": 0.009949463044851548}, {"concepto": "Dias trabajados", "col": 71, "ok": 6332, "diff": 0, "sum_abs": 0.0, "sum_signed": 0.0, "max_abs": 0.0, "completion": 1.0, "pending_pct": 0.0}], "top_differences": [{"row": null, "id": "Caso 01", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1454767.0, "signed_total": -1454767.0, "diffs": [{"concepto": "Liquido", "diferencia": -1454767.0}]}, {"row": null, "id": "Caso 02", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1135217.0, "signed_total": -1135217.0, "diffs": [{"concepto": "Liquido", "diferencia": -1135217.0}]}, {"row": null, "id": "Caso 03", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 1074347.0, "signed_total": -1074347.0, "diffs": [{"concepto": "Liquido", "diferencia": -1074347.0}]}, {"row": null, "id": "Caso 04", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 964663.0, "signed_total": -964663.0, "diffs": [{"concepto": "Liquido", "diferencia": -964663.0}]}, {"row": null, "id": "Caso 05", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 961886.0, "signed_total": -961886.0, "diffs": [{"concepto": "Liquido", "diferencia": -961886.0}]}, {"row": null, "id": "Caso 06", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 960828.0, "signed_total": -960828.0, "diffs": [{"concepto": "Liquido", "diferencia": -960828.0}]}, {"row": null, "id": "Caso 07", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 923088.0, "signed_total": -923088.0, "diffs": [{"concepto": "Liquido", "diferencia": -923088.0}]}, {"row": null, "id": "Caso 08", "nombre": "Mineria", "empresa": "FINNING CHILE S.A.", "unidad": "Mineria", "estado": "ACTIVO", "abs_total": 919854.0, "signed_total": -919854.0, "diffs": [{"concepto": "Liquido", "diferencia": -919854.0}]}, {"row": null, "id": "Caso 09", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 914952.0, "signed_total": -914952.0, "diffs": [{"concepto": "Liquido", "diferencia": -914952.0}]}, {"row": null, "id": "Caso 10", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 913482.0, "signed_total": -913482.0, "diffs": [{"concepto": "Liquido", "diferencia": -913482.0}]}, {"row": null, "id": "Caso 11", "nombre": "Construccion & Power Sys", "empresa": "FINNING CHILE S.A.", "unidad": "Construccion & Power Sys", "estado": "ACTIVO", "abs_total": 902955.0, "signed_total": -902955.0, "diffs": [{"concepto": "Liquido", "diferencia": -902955.0}]}, {"row": null, "id": "Caso 12", "nombre": "Operaciones de Servicio", "empresa": "FINNING CHILE S.A.", "unidad": "Operaciones de Servicio", "estado": "ACTIVO", "abs_total": 867303.0, "signed_total": -867303.0, "diffs": [{"concepto": "Liquido", "diferencia": -867303.0}]}], "cell_completion": 0.9950252684775742, "employee_completion": 0.9900505369551484, "company_rank": [{"nombre": "FINNING CHILE S.A.", "total": 6196, "with_diff": 62, "sum_abs": 32980609.0, "completion": 0.9899935442220787}, {"nombre": "DISTRIBUIDORA PERKINS CHILENA SAC", "total": 95, "with_diff": 1, "sum_abs": 4031.0, "completion": 0.9894736842105263}, {"nombre": "FINNING CAPACITACION LTDA.", "total": 28, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "CENTRO DE FORMACION TECNICA FINNING LTDA", "total": 1, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "SITECH SOUTHERN CONE SPA", "total": 11, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "Sin empresa", "total": 1, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}], "unit_rank": [{"nombre": "Construccion & Power Sys", "total": 803, "with_diff": 36, "sum_abs": 22649855.0, "completion": 0.9551681195516812}, {"nombre": "Operaciones de Servicio", "total": 3704, "with_diff": 15, "sum_abs": 4428443.0, "completion": 0.9959503239740821}, {"nombre": "Mineria", "total": 163, "with_diff": 6, "sum_abs": 3080356.0, "completion": 0.9631901840490797}, {"nombre": "Finanzas", "total": 91, "with_diff": 3, "sum_abs": 2194271.0, "completion": 0.967032967032967}, {"nombre": "Supply Chain&Cust Exp", "total": 1003, "with_diff": 3, "sum_abs": 631715.0, "completion": 0.9970089730807578}, {"nombre": "Recursos Humanos", "total": 240, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "Operaciones Argentina", "total": 32, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}, {"nombre": "Information Technology", "total": 55, "with_diff": 0, "sum_abs": 0.0, "completion": 1.0}]}, "extra": {"last_column": {"index": 354, "header": "Casos con dif inferior a $100 y $-100"}, "minor_breakdown": {"total_under_100": 2652, "range_minus1_to_1": 2561, "range_minus1_to_1_pct": 0.9656862745098039, "rest_under_100": 91, "rest_under_100_pct": 0.03431372549019608, "max_abs_under_100": 54.0}, "justification_groups": {"all": [{"name": "*", "count": 2650, "pct": 0.9760589318600368, "sum_abs": 2989.0, "max_abs": 19.0, "top_units": [{"name": "Operaciones de Servicio", "count": 1501}, {"name": "Supply Chain&Cust Exp", "count": 378}, {"name": "Construccion & Power Sys", "count": 342}, {"name": "Recursos Humanos", "count": 148}], "label": "Marcado en última columna (*)"}, {"name": "Sin justificacion", "count": 65, "pct": 0.02394106813996317, "sum_abs": 32984737.0, "max_abs": 1454767.0, "top_units": [{"name": "Construccion & Power Sys", "count": 37}, {"name": "Operaciones de Servicio", "count": 15}, {"name": "Mineria", "count": 6}, {"name": "Supply Chain&Cust Exp", "count": 4}], "label": "Sin justificacion"}], "filtered": [{"name": "Sin justificacion", "count": 63, "pct": 1.0, "sum_abs": 32984640.0, "max_abs": 1454767.0, "top_units": [{"name": "Construccion & Power Sys", "count": 36}, {"name": "Operaciones de Servicio", "count": 15}, {"name": "Mineria", "count": 6}, {"name": "Supply Chain&Cust Exp", "count": 3}], "label": "Sin justificacion"}]}}};
     const formatNumber = value => new Intl.NumberFormat("es-CL", { maximumFractionDigits: 0 }).format(value);
     const formatMoney = value => "$" + new Intl.NumberFormat("es-CL", { maximumFractionDigits: 0 }).format(value);
     const formatPct = value => new Intl.NumberFormat("es-CL", { style: "percent", minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(value);
     const setText = (key, value) => document.querySelectorAll(`[data-value="${key}"]`).forEach(node => node.textContent = value);
     const setBar = (key, value) => document.querySelectorAll(`[data-value="${key}"]`).forEach(node => node.style.width = `${Math.max(0, Math.min(100, value * 100))}%`);
-    const setRing = (key, value, color) => document.querySelector(`[data-value="${key}"]`).style.background = `conic-gradient(${color} 0deg ${value * 360}deg, #e7eceb ${value * 360}deg)`;
+    const labelGroup = group => group.label || group.name;
+    const combinedGroup = groups => {
+      const units = new Map();
+      groups.forEach(group => group.top_units.forEach(unit => units.set(unit.name, (units.get(unit.name) || 0) + unit.count)));
+      return {
+        name: "__all__",
+        label: "Todos los grupos",
+        count: groups.reduce((total, group) => total + group.count, 0),
+        pct: 1,
+        sum_abs: groups.reduce((total, group) => total + group.sum_abs, 0),
+        max_abs: Math.max(...groups.map(group => group.max_abs), 0),
+        top_units: [...units.entries()].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count).slice(0, 4)
+      };
+    };
     const renderControlRows = rows => {
       const max = Math.max(...rows.map(row => row.sum_abs), 1);
       document.querySelector('[data-table="controls"]').innerHTML = rows.map((row, index) => `
         <tr>
           <td><span class="rank">${index + 1}</span>${row.concepto}</td>
-          <td>${formatPct(row.completion)}</td>
-          <td>${formatNumber(row.diff)}</td>
-          <td>${formatMoney(row.sum_abs)}</td>
-          <td>${formatMoney(row.max_abs)}</td>
+          <td class="num">${formatPct(row.completion)}</td>
+          <td class="num">${formatNumber(row.diff)}</td>
+          <td class="num">${formatMoney(row.sum_abs)}</td>
+          <td class="num">${formatMoney(row.max_abs)}</td>
           <td><div class="mini-track"><span style="width:${Math.min(100, row.sum_abs / max * 100)}%"></span></div></td>
         </tr>`).join("");
     };
@@ -371,7 +387,7 @@
         <tr>
           <td>${row.id}</td>
           <td>${row.nombre}</td>
-          <td>${formatMoney(row.abs_total)}</td>
+          <td class="num">${formatMoney(row.abs_total)}</td>
           <td>${row.diffs.slice(0, 4).map(diff => `${diff.concepto}: ${formatMoney(diff.diferencia)}`).join(", ")}</td>
         </tr>`).join("");
     };
@@ -379,15 +395,35 @@
       document.querySelector(selector).innerHTML = rows.map(row => `
         <tr>
           <td>${row.nombre}</td>
-          <td>${formatNumber(row.total)}</td>
-          <td>${formatNumber(row.with_diff)}</td>
-          <td>${formatPct(row.completion)}</td>
-          <td>${formatMoney(row.sum_abs)}</td>
+          <td class="num">${formatNumber(row.total)}</td>
+          <td class="num">${formatNumber(row.with_diff)}</td>
+          <td class="num">${formatPct(row.completion)}</td>
+          <td class="num">${formatMoney(row.sum_abs)}</td>
         </tr>`).join("");
+    };
+    const renderJustifications = (mode, selectedName = "__all__") => {
+      const groups = reportData.extra.justification_groups[mode];
+      const select = document.getElementById("justificationSelect");
+      select.innerHTML = `<option value="__all__">Todos los grupos</option>` + groups.map(group => `<option value="${group.name}">${labelGroup(group)}</option>`).join("");
+      if ([...select.options].some(option => option.value === selectedName)) select.value = selectedName;
+      const selected = select.value === "__all__" ? combinedGroup(groups) : groups.find(group => group.name === select.value) || combinedGroup(groups);
+      document.querySelector('[data-table="justifications"]').innerHTML = groups.map(group => `
+        <tr>
+          <td>${labelGroup(group)}</td>
+          <td class="num">${formatNumber(group.count)}</td>
+          <td class="num">${formatPct(group.pct)}</td>
+          <td class="num">${formatMoney(group.max_abs)}</td>
+        </tr>`).join("");
+      document.querySelector('[data-value="selected-justification-cards"]').innerHTML = `
+        <div class="group-card"><h3>${labelGroup(selected)}</h3><strong>${formatNumber(selected.count)}</strong><p class="muted">empleados pendientes</p></div>
+        <div class="group-card"><h3>Peso del grupo</h3><strong>${formatPct(selected.pct)}</strong><p class="muted">sobre pendientes del filtro activo</p></div>
+        <div class="group-card"><h3>Mayor diferencia</h3><strong>${formatMoney(selected.max_abs)}</strong><p class="muted">valor absoluto máximo</p></div>
+        <div class="group-card" style="grid-column:1/-1"><h3>Unidades principales</h3><div class="unit-tags">${selected.top_units.map(unit => `<span>${unit.name} · ${formatNumber(unit.count)}</span>`).join("")}</div></div>
+      `;
     };
     const updateReport = mode => {
       const data = reportData[mode];
-      const liquido = data.diff_stats.find(row => row.concepto === "Liquido");
+      const liquido = data.diff_stats.find(row => row.concepto === "Liquido") || data.diff_stats[0];
       const controlLabel = `${data.diff_cols} controles disponibles`;
       setText("filter-label", mode === "filtered" ? "Filtro activo: diferencias >= $100" : "Todas las diferencias");
       setText("cell-completion", formatPct(data.cell_completion));
@@ -395,25 +431,28 @@
       setText("fully-ok", formatNumber(data.fully_ok));
       setText("fully-ok-sub", `${formatPct(data.employee_completion)} sin diferencias en ${controlLabel}`);
       setText("any-diff", formatNumber(data.any_diff));
-      setText("any-diff-sub", `${formatPct(1 - data.employee_completion)} requiere revision`);
+      setText("any-diff-sub", `${formatPct(1 - data.employee_completion)} requiere revisión`);
       setText("pending-cells", formatNumber(data.nonzero_cells));
       setText("pending-cells-sub", `de ${formatNumber(data.numeric_cells)} controles revisados`);
       setText("ring-controls-text", formatPct(data.cell_completion));
       setText("ring-employees-text", formatPct(data.employee_completion));
       setText("bar-employees-pct", formatPct(1 - data.employee_completion));
-      setText("bar-employees-sub", `${formatNumber(data.any_diff)} empleados aun tienen al menos un control con diferencia`);
+      setText("bar-employees-sub", `${formatNumber(data.any_diff)} empleados aún tienen al menos un control con diferencia`);
       setText("bar-liquido-pct", formatPct(liquido.pending_pct));
+      setBar("ring-controls-bar", data.cell_completion);
+      setBar("ring-employees-bar", data.employee_completion);
       setBar("bar-employees-bar", 1 - data.employee_completion);
       setBar("bar-liquido-bar", liquido.pending_pct);
-      document.querySelector('[data-value="hero-donut"]').style.background = `conic-gradient(#34d399 0deg ${data.cell_completion * 360}deg, rgba(255,255,255,.18) ${data.cell_completion * 360}deg 360deg)`;
-      setRing("ring-controls", data.cell_completion, "var(--green)");
-      setRing("ring-employees", data.employee_completion, "var(--blue)");
+      document.querySelector('[data-value="hero-donut"]').style.background = `conic-gradient(var(--amber) 0deg ${data.cell_completion * 360}deg, rgba(255,255,255,.16) ${data.cell_completion * 360}deg 360deg)`;
       renderControlRows(data.diff_stats);
       renderTopRows(data.top_differences);
       renderGroupRows('[data-table="company"]', data.company_rank);
       renderGroupRows('[data-table="unit"]', data.unit_rank);
+      renderJustifications(mode, document.getElementById("justificationSelect").value || "__all__");
     };
     document.getElementById("thresholdSwitch").addEventListener("change", event => updateReport(event.target.checked ? "filtered" : "all"));
+    document.getElementById("justificationSelect").addEventListener("change", () => renderJustifications(document.getElementById("thresholdSwitch").checked ? "filtered" : "all", document.getElementById("justificationSelect").value));
+    updateReport("all");
   </script>
 </body>
 </html>
