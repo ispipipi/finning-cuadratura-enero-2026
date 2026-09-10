@@ -2,4 +2,4 @@
 
 Informe visual del avance de cuadratura del paralelo de migracion Meta4 a REX+.
 
-Version publica anonimizada. Mantiene indicadores agregados, brechas por control, focos por empresa/unidad, filtro de materialidad de $100, desglose de diferencias menores y agrupacion de pendientes por justificacion.
+Version publica anonimizada. Mantiene indicadores agregados, brechas por control, focos por empresa/unidad, filtro de materialidad de $100, desglose clickeable de diferencias menores y agrupacion de pendientes por justificacion desde la columna MO.
