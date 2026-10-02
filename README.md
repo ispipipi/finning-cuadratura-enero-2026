@@ -1,5 +1,5 @@
-# Informe cuadratura Finning enero 2026
+# Informe cuadratura Finning 2026
 
-Informe visual del avance de cuadratura del paralelo de migracion Meta4 a REX+.
+Informe público del paralelo de migración Meta4 a REX+, con selector para enero y febrero de 2026.
 
-Version publica anonimizada. Mantiene indicadores agregados, brechas por control, focos por empresa/unidad, filtro de materialidad de $100, desglose clickeable de diferencias menores y agrupacion de pendientes por justificacion desde la columna MO.
+Publicación anonimizada: presenta indicadores agregados, materialidad configurable, detalle de diferencias menores y grupos de pendientes. No incluye nombres, RUT ni identificadores personales.
