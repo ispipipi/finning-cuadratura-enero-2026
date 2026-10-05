@@ -114,6 +114,7 @@
     .justifications-table th:nth-child(4) { width: 21%; }
     .justifications-table th:nth-child(5) { width: 23%; }
     .groups-scroll { max-height: 480px; }
+    .justification-layout { grid-template-columns: minmax(0, 1fr); }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { padding: 11px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
     tr.is-resolved td { background: #f1f8f4; }
@@ -219,7 +220,7 @@
         <div class="card metric warn"><span>Empleados con pendiente</span><strong data-value="any-diff">842</strong><small data-value="any-diff-sub">13,2% fuera de tolerancia</small></div>
         <div class="card metric"><span data-value="pending-label">Casos sobre tolerancia</span><strong data-value="pending-cells">842</strong><small data-value="pending-cells-sub">de 6.365 controles revisados</small></div>
       </section>
-      <section class="grid two">
+      <section class="grid justification-layout">
         <div class="card">
           <h2>Lectura ejecutiva</h2>
           <div class="progress-pair">
