@@ -106,13 +106,26 @@
     .select-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0 14px; }
     select { appearance: none; border: 1px solid var(--line-strong); border-radius: 8px; padding: 10px 38px 10px 12px; background: white; color: var(--ink); font: inherit; font-weight: 750; min-width: 250px; }
     .group-status-select { width: 100%; max-width: 124px; min-width: 0; padding: 8px 26px 8px 8px; font-size: 12px; }
+    .group-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .group-heading h2 { margin-bottom: 12px; }
+    .quiet-button { flex: 0 0 auto; border: 1px solid var(--line-strong); border-radius: 6px; padding: 7px 10px; background: #fff; color: var(--ink); font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; }
+    .quiet-button:hover { border-color: var(--green); background: #f6faf8; }
+    .quiet-button:focus-visible { outline: 3px solid rgba(0, 112, 91, .24); outline-offset: 2px; }
     .resolution-note { margin: 10px 0 14px; padding: 10px 12px; border-left: 4px solid var(--blue); border-radius: 4px; background: var(--blue-soft); }
     .justifications-table { table-layout: fixed; }
-    .justifications-table th:nth-child(1) { width: 34%; }
-    .justifications-table th:nth-child(2) { width: 9%; }
-    .justifications-table th:nth-child(3) { width: 13%; }
-    .justifications-table th:nth-child(4) { width: 21%; }
-    .justifications-table th:nth-child(5) { width: 23%; }
+    .justifications-table th:nth-child(1) { width: 43%; }
+    .justifications-table th:nth-child(2) { width: 12%; }
+    .justifications-table th:nth-child(3) { width: 16%; }
+    .justifications-table th:nth-child(4) { width: 29%; }
+    #justificationSection:not(.is-editing) .resolution-note,
+    #justificationSection:not(.is-editing) .resolution-column,
+    #justificationSection:not(.is-editing) .resolution-edit-only { display: none; }
+    #justificationSection.is-editing .resolution-column { display: table-cell; }
+    #justificationSection.is-editing .justifications-table th:nth-child(1) { width: 34%; }
+    #justificationSection.is-editing .justifications-table th:nth-child(2) { width: 9%; }
+    #justificationSection.is-editing .justifications-table th:nth-child(3) { width: 13%; }
+    #justificationSection.is-editing .justifications-table th:nth-child(4) { width: 21%; }
+    #justificationSection.is-editing .justifications-table th:nth-child(5) { width: 23%; }
     .groups-scroll { max-height: 480px; }
     .justification-layout { grid-template-columns: minmax(0, 1fr); }
     .justification-layout > .card { min-width: 0; }
@@ -265,7 +278,7 @@
           </table>
         </div>
       </section>
-      <section class="grid justification-layout">
+      <section class="grid justification-layout" id="justificationSection">
         <div class="card">
           <h2 data-value="justification-heading">Pendientes por causa principal</h2>
           <p class="muted" data-value="justification-description">Agrupa los pendientes según la causa principal del análisis de febrero.</p>
@@ -273,9 +286,9 @@
           <div class="grid three" data-value="selected-justification-cards"></div>
         </div>
         <div class="card">
-          <h2>Grupos disponibles</h2>
+          <div class="group-heading"><h2>Grupos disponibles</h2><button class="quiet-button" id="toggleResolutionEdit" type="button" aria-expanded="false" aria-controls="justificationsTable">Editar estados</button></div>
           <p class="muted resolution-note" data-value="resolution-summary" role="status" aria-live="polite">Todos los grupos parten pendientes. Al marcar uno como resuelto, sus casos cuentan como cerrados y sube el avance. El total y los montos originales se mantienen; el estado se guarda en este navegador.</p>
-          <div class="table-scroll groups-scroll"><table class="justifications-table"><thead><tr><th data-value="justification-column-head">Observación</th><th class="num" data-value="justification-count-head">Casos</th><th class="num">% pendiente original</th><th class="num" data-value="justification-value-head">Diferencia neta</th><th>Estado</th></tr></thead><tbody data-table="justifications"></tbody></table></div>
+          <div class="table-scroll groups-scroll"><table class="justifications-table" id="justificationsTable"><thead><tr><th data-value="justification-column-head">Observación</th><th class="num" data-value="justification-count-head">Casos</th><th class="num">% pendiente original</th><th class="num" data-value="justification-value-head">Diferencia neta</th><th class="resolution-column">Estado</th></tr></thead><tbody data-table="justifications"></tbody></table></div>
         </div>
       </section>
       <section class="card">
@@ -406,13 +419,13 @@
       setText("justification-value-head", isCause ? "Diferencia neta" : "Mayor dif.");
       document.querySelector('[data-table="justifications"]').innerHTML = groups.map(group => {
         const resolved = isGroupResolved(selectedMonth, group.name);
-        return `<tr class="${resolved ? "is-resolved" : ""}"><td>${escapeHtml(labelGroup(group))}</td><td class="num">${formatNumber(group.count)}</td><td class="num">${formatPct(group.pct)}</td><td class="num">${formatMoney(isCause ? group.sum_signed : group.max_abs)}</td><td><select class="group-status-select" data-resolved-group="${escapeHtml(group.name)}" aria-label="Estado del grupo ${escapeHtml(labelGroup(group))}"><option value="pending" ${resolved ? "" : "selected"}>Pendiente</option><option value="resolved" ${resolved ? "selected" : ""}>Resuelto</option></select></td></tr>`;
+        return `<tr class="${resolved ? "is-resolved" : ""}"><td>${escapeHtml(labelGroup(group))}</td><td class="num">${formatNumber(group.count)}</td><td class="num">${formatPct(group.pct)}</td><td class="num">${formatMoney(isCause ? group.sum_signed : group.max_abs)}</td><td class="resolution-column"><select class="group-status-select" data-resolved-group="${escapeHtml(group.name)}" aria-label="Estado del grupo ${escapeHtml(labelGroup(group))}"><option value="pending" ${resolved ? "" : "selected"}>Pendiente</option><option value="resolved" ${resolved ? "selected" : ""}>Resuelto</option></select></td></tr>`;
       }).join("");
       const detailCard = isCause
         ? `<div class="group-card"><h3>Diferencia neta</h3><strong>${formatMoney(selected.sum_signed)}</strong><p class="muted">suma con signo del grupo</p></div>`
         : `<div class="group-card"><h3>Unidades principales</h3><div class="unit-tags">${selected.top_units.map(unit => `<span>${escapeHtml(unit.name)} · ${formatNumber(unit.count)}</span>`).join("")}</div></div>`;
       const selectedResolved = selected.name === "__all__" ? resolvedCount : (isGroupResolved(selectedMonth, selected.name) ? selected.count : 0);
-      document.querySelector('[data-value="selected-justification-cards"]').innerHTML = `<div class="group-card"><h3>${escapeHtml(labelGroup(selected))}</h3><strong>${formatNumber(selected.count)}</strong><p class="muted">casos del grupo · ${formatNumber(selectedResolved)} considerados resueltos</p></div><div class="group-card"><h3>Peso del grupo</h3><strong>${formatPct(selected.pct)}</strong><p class="muted">sobre pendientes originales del filtro activo</p></div><div class="group-card"><h3>Mayor diferencia</h3><strong>${formatMoney(selected.max_abs)}</strong><p class="muted">valor absoluto máximo observado</p></div>${detailCard}`;
+      document.querySelector('[data-value="selected-justification-cards"]').innerHTML = `<div class="group-card"><h3>${escapeHtml(labelGroup(selected))}</h3><strong>${formatNumber(selected.count)}</strong><p class="muted">casos del grupo<span class="resolution-edit-only"> · ${formatNumber(selectedResolved)} considerados resueltos</span></p></div><div class="group-card"><h3>Peso del grupo</h3><strong>${formatPct(selected.pct)}</strong><p class="muted">sobre pendientes originales del filtro activo</p></div><div class="group-card"><h3>Mayor diferencia</h3><strong>${formatMoney(selected.max_abs)}</strong><p class="muted">valor absoluto máximo observado</p></div>${detailCard}`;
       setText("resolution-summary", `${formatNumber(resolvedCount)} de ${formatNumber(groups.reduce((total, group) => total + group.count, 0))} casos agrupados considerados resueltos. El total analizado se mantiene como denominador; los montos originales no cambian. Estado guardado en este navegador.`);
     };
     const updateReport = mode => {
@@ -479,6 +492,13 @@
     document.getElementById("thresholdSwitch").addEventListener("change", event => updateReport(event.target.checked ? "filtered" : "all"));
     document.getElementById("bonusSwitch").addEventListener("change", () => updateReport(activeMode()));
     document.getElementById("justificationSelect").addEventListener("change", () => renderJustifications(activeMode(), document.getElementById("justificationSelect").value));
+    document.getElementById("toggleResolutionEdit").addEventListener("click", event => {
+      const section = document.getElementById("justificationSection");
+      const isEditing = section.classList.toggle("is-editing");
+      event.currentTarget.setAttribute("aria-expanded", String(isEditing));
+      event.currentTarget.textContent = isEditing ? "Cerrar edición" : "Editar estados";
+      if (isEditing) document.querySelector(".group-status-select")?.focus();
+    });
     document.querySelector('[data-table="justifications"]').addEventListener("change", event => {
       const control = event.target.closest("[data-resolved-group]");
       if (!control) return;
