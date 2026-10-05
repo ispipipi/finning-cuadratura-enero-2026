@@ -112,6 +112,10 @@
     .quiet-button:hover { border-color: var(--green); background: #f6faf8; }
     .quiet-button:focus-visible { outline: 3px solid rgba(0, 112, 91, .24); outline-offset: 2px; }
     .resolution-note { margin: 10px 0 14px; padding: 10px 12px; border-left: 4px solid var(--blue); border-radius: 4px; background: var(--blue-soft); }
+    .resolved-filter { display: none; align-items: center; gap: 8px; width: fit-content; margin: 10px 0; color: var(--muted); font-size: 13px; font-weight: 750; cursor: pointer; }
+    .resolved-filter input { width: 16px; height: 16px; margin: 0; accent-color: var(--green); }
+    #justificationSection.is-editing .resolved-filter { display: flex; }
+    .empty-row { padding: 24px 12px; color: var(--muted); text-align: center; }
     .justifications-table { table-layout: fixed; }
     .justifications-table th:nth-child(1) { width: 43%; }
     .justifications-table th:nth-child(2) { width: 12%; }
@@ -288,6 +292,7 @@
         <div class="card">
           <div class="group-heading"><h2>Grupos disponibles</h2><button class="quiet-button" id="toggleResolutionEdit" type="button" aria-expanded="false" aria-controls="justificationsTable">Editar estados</button></div>
           <p class="muted resolution-note" data-value="resolution-summary" role="status" aria-live="polite">Todos los grupos parten pendientes. Al marcar uno como resuelto, sus casos cuentan como cerrados y sube el avance. El total y los montos originales se mantienen; el estado se guarda en este navegador.</p>
+          <label class="resolved-filter" for="showResolvedGroups"><input id="showResolvedGroups" type="checkbox">Mostrar resueltos</label>
           <div class="table-scroll groups-scroll"><table class="justifications-table" id="justificationsTable"><thead><tr><th data-value="justification-column-head">Observación</th><th class="num" data-value="justification-count-head">Casos</th><th class="num">% pendiente original</th><th class="num" data-value="justification-value-head">Diferencia neta</th><th class="resolution-column">Estado</th></tr></thead><tbody data-table="justifications"></tbody></table></div>
         </div>
       </section>
@@ -417,10 +422,13 @@
       setText("justification-column-head", currentMonth.justification_column_label);
       setText("justification-count-head", currentMonth.month === "2026-02" ? "Casos" : "Empleados");
       setText("justification-value-head", isCause ? "Diferencia neta" : "Mayor dif.");
-      document.querySelector('[data-table="justifications"]').innerHTML = groups.map(group => {
+      const showResolved = document.getElementById("showResolvedGroups").checked;
+      const visibleGroups = groups.filter(group => showResolved || !isGroupResolved(selectedMonth, group.name));
+      const rows = visibleGroups.map(group => {
         const resolved = isGroupResolved(selectedMonth, group.name);
         return `<tr class="${resolved ? "is-resolved" : ""}"><td>${escapeHtml(labelGroup(group))}</td><td class="num">${formatNumber(group.count)}</td><td class="num">${formatPct(group.pct)}</td><td class="num">${formatMoney(isCause ? group.sum_signed : group.max_abs)}</td><td class="resolution-column"><select class="group-status-select" data-resolved-group="${escapeHtml(group.name)}" aria-label="Estado del grupo ${escapeHtml(labelGroup(group))}"><option value="pending" ${resolved ? "" : "selected"}>Pendiente</option><option value="resolved" ${resolved ? "selected" : ""}>Resuelto</option></select></td></tr>`;
       }).join("");
+      document.querySelector('[data-table="justifications"]').innerHTML = rows || `<tr><td class="empty-row" colspan="${document.getElementById("justificationSection").classList.contains("is-editing") ? 5 : 4}">No quedan causas pendientes con estos filtros.</td></tr>`;
       const detailCard = isCause
         ? `<div class="group-card"><h3>Diferencia neta</h3><strong>${formatMoney(selected.sum_signed)}</strong><p class="muted">suma con signo del grupo</p></div>`
         : `<div class="group-card"><h3>Unidades principales</h3><div class="unit-tags">${selected.top_units.map(unit => `<span>${escapeHtml(unit.name)} · ${formatNumber(unit.count)}</span>`).join("")}</div></div>`;
@@ -497,8 +505,14 @@
       const isEditing = section.classList.toggle("is-editing");
       event.currentTarget.setAttribute("aria-expanded", String(isEditing));
       event.currentTarget.textContent = isEditing ? "Cerrar edición" : "Editar estados";
+      const showResolved = document.getElementById("showResolvedGroups");
       if (isEditing) document.querySelector(".group-status-select")?.focus();
+      else {
+        showResolved.checked = false;
+        renderJustifications(activeMode(), document.getElementById("justificationSelect").value);
+      }
     });
+    document.getElementById("showResolvedGroups").addEventListener("change", () => renderJustifications(activeMode(), document.getElementById("justificationSelect").value));
     document.querySelector('[data-table="justifications"]').addEventListener("change", event => {
       const control = event.target.closest("[data-resolved-group]");
       if (!control) return;
