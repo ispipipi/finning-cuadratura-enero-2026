@@ -105,8 +105,15 @@
     .mini-stat b { display: block; font-size: 20px; margin-bottom: 3px; }
     .select-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0 14px; }
     select { appearance: none; border: 1px solid var(--line-strong); border-radius: 8px; padding: 10px 38px 10px 12px; background: white; color: var(--ink); font: inherit; font-weight: 750; min-width: 250px; }
-    .group-status-select { width: 142px; min-width: 142px; padding: 8px 30px 8px 10px; font-size: 13px; }
+    .group-status-select { width: 100%; max-width: 124px; min-width: 0; padding: 8px 26px 8px 8px; font-size: 12px; }
     .resolution-note { margin: 10px 0 14px; padding: 10px 12px; border-left: 4px solid var(--blue); border-radius: 4px; background: var(--blue-soft); }
+    .justifications-table { table-layout: fixed; }
+    .justifications-table th:nth-child(1) { width: 34%; }
+    .justifications-table th:nth-child(2) { width: 9%; }
+    .justifications-table th:nth-child(3) { width: 13%; }
+    .justifications-table th:nth-child(4) { width: 21%; }
+    .justifications-table th:nth-child(5) { width: 23%; }
+    .groups-scroll { max-height: 480px; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { padding: 11px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
     tr.is-resolved td { background: #f1f8f4; }
@@ -138,6 +145,8 @@
       .card { overflow-x: auto; }
       .logo-tile.finning { width: 174px; }
       .logo-tile.artbpo { width: 132px; }
+      .justifications-table { min-width: 640px; }
+      .groups-scroll { max-height: 520px; }
     }
   </style>
 </head>
@@ -263,7 +272,7 @@
         <div class="card">
           <h2>Grupos disponibles</h2>
           <p class="muted resolution-note" data-value="resolution-summary" role="status" aria-live="polite">Todos los grupos parten pendientes. Al marcar uno como resuelto, sus casos cuentan como cerrados y sube el avance. El total y los montos originales se mantienen; el estado se guarda en este navegador.</p>
-          <table><thead><tr><th data-value="justification-column-head">Observación</th><th class="num" data-value="justification-count-head">Casos</th><th class="num">% pendiente original</th><th class="num" data-value="justification-value-head">Diferencia neta</th><th>Estado</th></tr></thead><tbody data-table="justifications"></tbody></table>
+          <div class="table-scroll groups-scroll"><table class="justifications-table"><thead><tr><th data-value="justification-column-head">Observación</th><th class="num" data-value="justification-count-head">Casos</th><th class="num">% pendiente original</th><th class="num" data-value="justification-value-head">Diferencia neta</th><th>Estado</th></tr></thead><tbody data-table="justifications"></tbody></table></div>
         </div>
       </section>
       <section class="card">
