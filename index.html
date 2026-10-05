@@ -105,8 +105,11 @@
     .mini-stat b { display: block; font-size: 20px; margin-bottom: 3px; }
     .select-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0 14px; }
     select { appearance: none; border: 1px solid var(--line-strong); border-radius: 8px; padding: 10px 38px 10px 12px; background: white; color: var(--ink); font: inherit; font-weight: 750; min-width: 250px; }
+    .group-status-select { width: 142px; min-width: 142px; padding: 8px 30px 8px 10px; font-size: 13px; }
+    .resolution-note { margin: 10px 0 14px; padding: 10px 12px; border-left: 4px solid var(--blue); border-radius: 4px; background: var(--blue-soft); }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { padding: 11px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    tr.is-resolved td { background: #f1f8f4; }
     th { font-size: 11px; text-transform: uppercase; color: var(--muted); background: #f5f7f7; letter-spacing: 0; }
     td.num, th.num { text-align: right; }
     .table-scroll { max-height: 420px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
@@ -218,7 +221,7 @@
         <div class="card">
           <h2>Qué falta cerrar</h2>
           <div class="bar-row"><div class="bar-label"><span data-value="pending-bar-label">Casos fuera de tolerancia</span><strong data-value="bar-employees-pct">13,2%</strong></div><div class="track"><span class="fill" data-value="bar-employees-bar" style="width:13.23%;background:var(--red)"></span></div><div class="bar-sub" data-value="bar-employees-sub">842 trabajadores aún presentan diferencias sobre tolerancia</div></div>
-          <div class="bar-row"><div class="bar-label"><span>Diferencias en líquido</span><strong data-value="bar-liquido-pct">13,2%</strong></div><div class="track"><span class="fill" data-value="bar-liquido-bar" style="width:13.23%;background:var(--blue)"></span></div><div class="bar-sub">Impacta el resultado final de liquidación</div></div>
+          <div class="bar-row"><div class="bar-label"><span>Diferencias en líquido</span><strong data-value="bar-liquido-pct">13,2%</strong></div><div class="track"><span class="fill" data-value="bar-liquido-bar" style="width:13.23%;background:var(--blue)"></span></div><div class="bar-sub" data-value="liquid-bar-sub">Impacta el resultado final de liquidación</div></div>
         </div>
       </section>
       <section>
@@ -259,20 +262,21 @@
         </div>
         <div class="card">
           <h2>Grupos disponibles</h2>
-          <table><thead><tr><th data-value="justification-column-head">Observación</th><th class="num" data-value="justification-count-head">Casos</th><th class="num">% pendientes</th><th class="num" data-value="justification-value-head">Diferencia neta</th></tr></thead><tbody data-table="justifications"></tbody></table>
+          <p class="muted resolution-note" data-value="resolution-summary" role="status" aria-live="polite">Todos los grupos parten pendientes. Al marcar uno como resuelto, sus casos cuentan como cerrados y sube el avance. El total y los montos originales se mantienen; el estado se guarda en este navegador.</p>
+          <table><thead><tr><th data-value="justification-column-head">Observación</th><th class="num" data-value="justification-count-head">Casos</th><th class="num">% pendiente original</th><th class="num" data-value="justification-value-head">Diferencia neta</th><th>Estado</th></tr></thead><tbody data-table="justifications"></tbody></table>
         </div>
       </section>
       <section class="card">
         <h2>Brechas por control</h2>
-        <table><thead><tr><th>Control</th><th class="num">Avance</th><th class="num">Casos pendientes</th><th class="num">Diferencia absoluta</th><th class="num">Máxima diferencia</th><th>Peso relativo</th></tr></thead><tbody data-table="controls"></tbody></table>
+        <table><thead><tr><th>Control</th><th class="num">Avance</th><th class="num">Casos sin resolver</th><th class="num">Diferencia absoluta observada</th><th class="num">Máxima diferencia observada</th><th>Peso de brecha original</th></tr></thead><tbody data-table="controls"></tbody></table>
       </section>
       <section class="card">
         <h2 data-value="top-cases-heading">Casos con mayor diferencia absoluta</h2>
         <table><thead><tr><th>Caso</th><th data-value="top-case-dimension-header">Unidad</th><th class="num">Diferencia absoluta</th><th>Principales diferencias</th></tr></thead><tbody data-table="top-cases"></tbody></table>
       </section>
       <section class="grid two" id="orgFocus">
-        <div class="card"><h2>Foco por empresa</h2><table><thead><tr><th>Empresa</th><th class="num">Empleados</th><th class="num">Con pendiente</th><th class="num">Avance</th><th class="num">Diferencia abs.</th></tr></thead><tbody data-table="company"></tbody></table></div>
-        <div class="card"><h2>Foco por unidad de negocio</h2><table><thead><tr><th>Unidad</th><th class="num">Empleados</th><th class="num">Con pendiente</th><th class="num">Avance</th><th class="num">Diferencia abs.</th></tr></thead><tbody data-table="unit"></tbody></table></div>
+        <div class="card"><h2>Foco por empresa</h2><p class="muted">Diferencias originales del archivo; no se ajustan por el estado de los grupos.</p><table><thead><tr><th>Empresa</th><th class="num">Empleados</th><th class="num">Con diferencia</th><th class="num">Avance base</th><th class="num">Diferencia abs.</th></tr></thead><tbody data-table="company"></tbody></table></div>
+        <div class="card"><h2>Foco por unidad de negocio</h2><p class="muted">Diferencias originales del archivo; no se ajustan por el estado de los grupos.</p><table><thead><tr><th>Unidad</th><th class="num">Empleados</th><th class="num">Con diferencia</th><th class="num">Avance base</th><th class="num">Diferencia abs.</th></tr></thead><tbody data-table="unit"></tbody></table></div>
       </section>
       <section class="card note">
         <h2>Nota de interpretación</h2>
@@ -291,6 +295,35 @@
     const setText = (key, value) => document.querySelectorAll(`[data-value="${key}"]`).forEach(node => node.textContent = value);
     const setBar = (key, value) => document.querySelectorAll(`[data-value="${key}"]`).forEach(node => node.style.width = `${Math.max(0, Math.min(100, value * 100))}%`);
     const escapeHtml = value => String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
+    const resolvedStorageKey = "finning-cuadratura-resolved-groups-v1";
+    const resolvedGroupsByMonth = (() => {
+      try {
+        const stored = JSON.parse(localStorage.getItem(resolvedStorageKey) || "{}");
+        return stored && typeof stored === "object" && !Array.isArray(stored) ? stored : {};
+      } catch {
+        return {};
+      }
+    })();
+    const isGroupResolved = (month, name) => Array.isArray(resolvedGroupsByMonth[month]) && resolvedGroupsByMonth[month].includes(name);
+    const storeResolvedGroups = () => {
+      try { localStorage.setItem(resolvedStorageKey, JSON.stringify(resolvedGroupsByMonth)); } catch {}
+    };
+    const withResolvedCases = (data, groups) => {
+      const resolvedCount = Math.min(data.any_diff, groups.reduce((total, group) => total + (isGroupResolved(selectedMonth, group.name) ? group.count : 0), 0));
+      const pendingCases = Math.max(0, data.any_diff - resolvedCount);
+      const completedCases = data.employees - pendingCases;
+      const pendingCells = Math.max(0, data.nonzero_cells - resolvedCount);
+      const cellCompletion = data.numeric_cells ? (data.numeric_cells - pendingCells) / data.numeric_cells : 1;
+      const employeeCompletion = data.employees ? completedCases / data.employees : 1;
+      const controlsWithDifferences = data.diff_stats.filter(row => row.diff > 0);
+      const diffStats = data.diff_stats.map(row => {
+        if (controlsWithDifferences.length !== 1 || row.diff <= 0) return row;
+        const remaining = Math.max(0, row.diff - resolvedCount);
+        const completed = Math.min(data.employees, row.ok + resolvedCount);
+        return { ...row, diff: remaining, ok: completed, completion: data.employees ? completed / data.employees : 1, pending_pct: data.employees ? remaining / data.employees : 0 };
+      });
+      return { ...data, any_diff: pendingCases, fully_ok: completedCases, nonzero_cells: pendingCells, cell_completion: cellCompletion, employee_completion: employeeCompletion, diff_stats: diffStats, resolved_count: resolvedCount };
+    };
     const monthData = () => {
       const base = reportData.months[selectedMonth];
       if (selectedMonth !== "2026-02" || !document.getElementById("bonusSwitch").checked) return base;
@@ -350,6 +383,7 @@
     const renderJustifications = (mode, selectedName = "__all__") => {
       const currentMonth = monthData();
       const groups = currentMonth.extra.justification_groups[mode];
+      const resolvedCount = groups.reduce((total, group) => total + (isGroupResolved(selectedMonth, group.name) ? group.count : 0), 0);
       const select = document.getElementById("justificationSelect");
       select.innerHTML = `<option value="__all__">Todos los grupos</option>` + groups.map(group => `<option value="${escapeHtml(group.name)}">${escapeHtml(labelGroup(group))}</option>`).join("");
       if ([...select.options].some(option => option.value === selectedName)) select.value = selectedName;
@@ -358,15 +392,21 @@
       setText("justification-column-head", currentMonth.justification_column_label);
       setText("justification-count-head", currentMonth.month === "2026-02" ? "Casos" : "Empleados");
       setText("justification-value-head", isCause ? "Diferencia neta" : "Mayor dif.");
-      document.querySelector('[data-table="justifications"]').innerHTML = groups.map(group => `<tr><td>${escapeHtml(labelGroup(group))}</td><td class="num">${formatNumber(group.count)}</td><td class="num">${formatPct(group.pct)}</td><td class="num">${formatMoney(isCause ? group.sum_signed : group.max_abs)}</td></tr>`).join("");
+      document.querySelector('[data-table="justifications"]').innerHTML = groups.map(group => {
+        const resolved = isGroupResolved(selectedMonth, group.name);
+        return `<tr class="${resolved ? "is-resolved" : ""}"><td>${escapeHtml(labelGroup(group))}</td><td class="num">${formatNumber(group.count)}</td><td class="num">${formatPct(group.pct)}</td><td class="num">${formatMoney(isCause ? group.sum_signed : group.max_abs)}</td><td><select class="group-status-select" data-resolved-group="${escapeHtml(group.name)}" aria-label="Estado del grupo ${escapeHtml(labelGroup(group))}"><option value="pending" ${resolved ? "" : "selected"}>Pendiente</option><option value="resolved" ${resolved ? "selected" : ""}>Resuelto</option></select></td></tr>`;
+      }).join("");
       const detailCard = isCause
         ? `<div class="group-card"><h3>Diferencia neta</h3><strong>${formatMoney(selected.sum_signed)}</strong><p class="muted">suma con signo del grupo</p></div>`
         : `<div class="group-card"><h3>Unidades principales</h3><div class="unit-tags">${selected.top_units.map(unit => `<span>${escapeHtml(unit.name)} · ${formatNumber(unit.count)}</span>`).join("")}</div></div>`;
-      document.querySelector('[data-value="selected-justification-cards"]').innerHTML = `<div class="group-card"><h3>${escapeHtml(labelGroup(selected))}</h3><strong>${formatNumber(selected.count)}</strong><p class="muted">trabajadores pendientes</p></div><div class="group-card"><h3>Peso del grupo</h3><strong>${formatPct(selected.pct)}</strong><p class="muted">sobre pendientes del filtro activo</p></div><div class="group-card"><h3>Mayor diferencia</h3><strong>${formatMoney(selected.max_abs)}</strong><p class="muted">valor absoluto máximo</p></div>${detailCard}`;
+      const selectedResolved = selected.name === "__all__" ? resolvedCount : (isGroupResolved(selectedMonth, selected.name) ? selected.count : 0);
+      document.querySelector('[data-value="selected-justification-cards"]').innerHTML = `<div class="group-card"><h3>${escapeHtml(labelGroup(selected))}</h3><strong>${formatNumber(selected.count)}</strong><p class="muted">casos del grupo · ${formatNumber(selectedResolved)} considerados resueltos</p></div><div class="group-card"><h3>Peso del grupo</h3><strong>${formatPct(selected.pct)}</strong><p class="muted">sobre pendientes originales del filtro activo</p></div><div class="group-card"><h3>Mayor diferencia</h3><strong>${formatMoney(selected.max_abs)}</strong><p class="muted">valor absoluto máximo observado</p></div>${detailCard}`;
+      setText("resolution-summary", `${formatNumber(resolvedCount)} de ${formatNumber(groups.reduce((total, group) => total + group.count, 0))} casos agrupados considerados resueltos. El total analizado se mantiene como denominador; los montos originales no cambian. Estado guardado en este navegador.`);
     };
     const updateReport = mode => {
       const currentMonth = monthData();
-      const data = currentMonth[mode];
+      const groups = currentMonth.extra.justification_groups[mode];
+      const data = withResolvedCases(currentMonth[mode], groups);
       const liquido = data.diff_stats[0];
       const controlLabel = currentMonth.month === "2026-02" ? "criterio de tolerancia" : `${data.diff_cols} controles disponibles`;
       const minor = currentMonth.extra.minor_breakdown;
@@ -386,8 +426,8 @@
       setText("justification-label", currentMonth.justification_label);
       setText("employees-label", isFebruary ? "Trabajadores analizados" : "Dotación revisada");
       setText("employee-universe-label", isFebruary ? `${formatNumber(bonusInfo.count)} casos de reliquidación ${bonusExcluded ? "excluidos por el selector" : "incluidos"}` : "filas de empleados leídas desde la pestaña fuente");
-      setText("pending-label", isFebruary ? "Casos sobre tolerancia" : "Celdas pendientes");
-      setText("pending-bar-label", isFebruary ? "Casos fuera de tolerancia" : "Empleados con alguna diferencia");
+      setText("pending-label", isFebruary ? "Casos sin resolver" : "Celdas sin resolver");
+      setText("pending-bar-label", data.resolved_count ? "Casos por cerrar" : isFebruary ? "Casos fuera de tolerancia" : "Empleados con alguna diferencia");
       setText("top-cases-heading", isFebruary ? "Mayores diferencias de líquido" : "Casos con mayor diferencia absoluta");
       setText("top-case-dimension-header", isFebruary ? "Control" : "Unidad");
       setText("interpretation-note", currentMonth.note);
@@ -399,16 +439,17 @@
       setText("cell-completion", formatPct(data.cell_completion));
       setText("employees", formatNumber(data.employees));
       setText("fully-ok", formatNumber(data.fully_ok));
-      setText("fully-ok-sub", `${formatPct(data.employee_completion)} dentro del ${controlLabel}`);
+      setText("fully-ok-sub", `${formatPct(data.employee_completion)} ${data.resolved_count ? "cuadrados o considerados resueltos" : `dentro del ${controlLabel}`}`);
       setText("any-diff", formatNumber(data.any_diff));
-      setText("any-diff-sub", `${formatPct(1 - data.employee_completion)} ${isFebruary ? "fuera de tolerancia" : "requiere revisión"}`);
+      setText("any-diff-sub", `${formatPct(1 - data.employee_completion)} ${data.resolved_count ? "pendiente según el estado de los grupos" : isFebruary ? "fuera de tolerancia" : "requiere revisión"}`);
       setText("pending-cells", formatNumber(data.nonzero_cells));
-      setText("pending-cells-sub", `de ${formatNumber(data.numeric_cells)} controles revisados`);
+      setText("pending-cells-sub", `de ${formatNumber(data.numeric_cells)} controles revisados${data.resolved_count ? ` · ${formatNumber(data.resolved_count)} considerados resueltos` : ""}`);
       setText("ring-controls-text", formatPct(data.cell_completion));
       setText("ring-employees-text", formatPct(data.employee_completion));
       setText("bar-employees-pct", formatPct(1 - data.employee_completion));
-      setText("bar-employees-sub", `${formatNumber(data.any_diff)} ${isFebruary ? "trabajadores presentan diferencias sobre tolerancia" : "empleados aún tienen al menos un control con diferencia"}`);
+      setText("bar-employees-sub", `${formatNumber(data.any_diff)} ${data.resolved_count ? "casos siguen pendientes según el estado de sus grupos" : isFebruary ? "trabajadores presentan diferencias sobre tolerancia" : "empleados aún tienen al menos un control con diferencia"}`);
       setText("bar-liquido-pct", formatPct(liquido.pending_pct));
+      setText("liquid-bar-sub", data.resolved_count ? "Casos pendientes según el estado de sus grupos; los montos originales se mantienen." : "Impacta el resultado final de liquidación");
       setText("minor-share-copy", `${formatPct(minor.range_minus1_to_1_pct)} está entre -1 y 1; el resto queda entre $2 y $99 en valor absoluto.`);
       setBar("ring-controls-bar", data.cell_completion);
       setBar("ring-employees-bar", data.employee_completion);
@@ -426,6 +467,16 @@
     document.getElementById("thresholdSwitch").addEventListener("change", event => updateReport(event.target.checked ? "filtered" : "all"));
     document.getElementById("bonusSwitch").addEventListener("change", () => updateReport(activeMode()));
     document.getElementById("justificationSelect").addEventListener("change", () => renderJustifications(activeMode(), document.getElementById("justificationSelect").value));
+    document.querySelector('[data-table="justifications"]').addEventListener("change", event => {
+      const control = event.target.closest("[data-resolved-group]");
+      if (!control) return;
+      const resolvedGroups = new Set(Array.isArray(resolvedGroupsByMonth[selectedMonth]) ? resolvedGroupsByMonth[selectedMonth] : []);
+      if (control.value === "resolved") resolvedGroups.add(control.dataset.resolvedGroup);
+      else resolvedGroups.delete(control.dataset.resolvedGroup);
+      resolvedGroupsByMonth[selectedMonth] = [...resolvedGroups];
+      storeResolvedGroups();
+      updateReport(activeMode());
+    });
     document.getElementById("monthSelect").addEventListener("change", event => {
       selectedMonth = event.target.value;
       if (selectedMonth !== "2026-02") document.getElementById("bonusSwitch").checked = false;
