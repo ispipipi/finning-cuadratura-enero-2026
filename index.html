@@ -398,7 +398,7 @@
     const combinedGroup = groups => {
       const units = new Map();
       groups.forEach(group => group.top_units.forEach(unit => units.set(unit.name, (units.get(unit.name) || 0) + unit.count)));
-      return { name: "__all__", label: "Todos los grupos", count: groups.reduce((total, group) => total + group.count, 0), pct: 1, sum_abs: groups.reduce((total, group) => total + group.sum_abs, 0), sum_signed: groups.reduce((total, group) => total + (group.sum_signed || 0), 0), max_abs: Math.max(...groups.map(group => group.max_abs), 0), top_units: [...units.entries()].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count).slice(0, 4) };
+      return { name: "__all__", label: "Todos los pendientes", count: groups.reduce((total, group) => total + group.count, 0), pct: groups.length ? 1 : 0, sum_abs: groups.reduce((total, group) => total + group.sum_abs, 0), sum_signed: groups.reduce((total, group) => total + (group.sum_signed || 0), 0), max_abs: Math.max(...groups.map(group => group.max_abs), 0), top_units: [...units.entries()].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count).slice(0, 4) };
     };
     const renderControlRows = rows => {
       const max = Math.max(...rows.map(row => row.sum_abs), 1);
@@ -414,10 +414,13 @@
       const currentMonth = monthData();
       const groups = currentMonth.extra.justification_groups[mode];
       const resolvedCount = groups.reduce((total, group) => total + (isGroupResolved(selectedMonth, group.name) ? group.count : 0), 0);
+      const pendingGroups = groups.filter(group => !isGroupResolved(selectedMonth, group.name));
+      const pendingCount = pendingGroups.reduce((total, group) => total + group.count, 0);
       const select = document.getElementById("justificationSelect");
-      select.innerHTML = `<option value="__all__">Todos los grupos</option>` + groups.map(group => `<option value="${escapeHtml(group.name)}">${escapeHtml(labelGroup(group))}</option>`).join("");
-      if ([...select.options].some(option => option.value === selectedName)) select.value = selectedName;
-      const selected = select.value === "__all__" ? combinedGroup(groups) : groups.find(group => group.name === select.value) || combinedGroup(groups);
+      select.innerHTML = `<option value="__all__">Todos los pendientes (${formatNumber(pendingCount)})</option>` + pendingGroups.map(group => `<option value="${escapeHtml(group.name)}">${escapeHtml(labelGroup(group))}</option>`).join("");
+      select.value = pendingGroups.some(group => group.name === selectedName) ? selectedName : "__all__";
+      const selectedGroup = select.value === "__all__" ? combinedGroup(pendingGroups) : pendingGroups.find(group => group.name === select.value) || combinedGroup(pendingGroups);
+      const selected = { ...selectedGroup, pct: pendingCount ? selectedGroup.count / pendingCount : 0 };
       const isCause = currentMonth.justification_display === "net";
       setText("justification-column-head", currentMonth.justification_column_label);
       setText("justification-count-head", currentMonth.month === "2026-02" ? "Casos" : "Empleados");
@@ -432,8 +435,8 @@
       const detailCard = isCause
         ? `<div class="group-card"><h3>Diferencia neta</h3><strong>${formatMoney(selected.sum_signed)}</strong><p class="muted">suma con signo del grupo</p></div>`
         : `<div class="group-card"><h3>Unidades principales</h3><div class="unit-tags">${selected.top_units.map(unit => `<span>${escapeHtml(unit.name)} · ${formatNumber(unit.count)}</span>`).join("")}</div></div>`;
-      const selectedResolved = selected.name === "__all__" ? resolvedCount : (isGroupResolved(selectedMonth, selected.name) ? selected.count : 0);
-      document.querySelector('[data-value="selected-justification-cards"]').innerHTML = `<div class="group-card"><h3>${escapeHtml(labelGroup(selected))}</h3><strong>${formatNumber(selected.count)}</strong><p class="muted">casos del grupo<span class="resolution-edit-only"> · ${formatNumber(selectedResolved)} considerados resueltos</span></p></div><div class="group-card"><h3>Peso del grupo</h3><strong>${formatPct(selected.pct)}</strong><p class="muted">sobre pendientes originales del filtro activo</p></div><div class="group-card"><h3>Mayor diferencia</h3><strong>${formatMoney(selected.max_abs)}</strong><p class="muted">valor absoluto máximo observado</p></div>${detailCard}`;
+      const selectedCountLabel = selected.name === "__all__" ? "casos pendientes en total" : "casos pendientes del grupo";
+      document.querySelector('[data-value="selected-justification-cards"]').innerHTML = `<div class="group-card"><h3>${escapeHtml(labelGroup(selected))}</h3><strong>${formatNumber(selected.count)}</strong><p class="muted">${selectedCountLabel}</p></div><div class="group-card"><h3>Peso del grupo</h3><strong>${formatPct(selected.pct)}</strong><p class="muted">del total de casos pendientes actuales</p></div><div class="group-card"><h3>Mayor diferencia</h3><strong>${formatMoney(selected.max_abs)}</strong><p class="muted">valor absoluto máximo pendiente</p></div>${detailCard}`;
       setText("resolution-summary", `${formatNumber(resolvedCount)} de ${formatNumber(groups.reduce((total, group) => total + group.count, 0))} casos agrupados considerados resueltos. El total analizado se mantiene como denominador; los montos originales no cambian. Estado guardado en este navegador.`);
     };
     const updateReport = mode => {
