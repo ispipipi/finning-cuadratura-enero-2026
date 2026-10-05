@@ -115,6 +115,8 @@
     .justifications-table th:nth-child(5) { width: 23%; }
     .groups-scroll { max-height: 480px; }
     .justification-layout { grid-template-columns: minmax(0, 1fr); }
+    .justification-layout > .card { min-width: 0; }
+    .groups-scroll { min-width: 0; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { padding: 11px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
     tr.is-resolved td { background: #f1f8f4; }
@@ -220,7 +222,7 @@
         <div class="card metric warn"><span>Empleados con pendiente</span><strong data-value="any-diff">842</strong><small data-value="any-diff-sub">13,2% fuera de tolerancia</small></div>
         <div class="card metric"><span data-value="pending-label">Casos sobre tolerancia</span><strong data-value="pending-cells">842</strong><small data-value="pending-cells-sub">de 6.365 controles revisados</small></div>
       </section>
-      <section class="grid justification-layout">
+      <section class="grid two">
         <div class="card">
           <h2>Lectura ejecutiva</h2>
           <div class="progress-pair">
@@ -263,7 +265,7 @@
           </table>
         </div>
       </section>
-      <section class="grid two">
+      <section class="grid justification-layout">
         <div class="card">
           <h2 data-value="justification-heading">Pendientes por causa principal</h2>
           <p class="muted" data-value="justification-description">Agrupa los pendientes según la causa principal del análisis de febrero.</p>
